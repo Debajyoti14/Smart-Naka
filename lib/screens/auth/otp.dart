@@ -16,7 +16,7 @@ class _OTPScreenState extends State<OTPScreen> {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.symmetric(
-          horizontal: DEFAULT_PADDING,
+          horizontal: defaultPadding,
           vertical: 25,
         ),
         width: double.infinity,
@@ -31,7 +31,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   'Smart Naka',
                   style: TextStyle(
                     fontSize: 32,
-                    color: ACCENT_GREEN,
+                    color: accentGreen,
                   ),
                 )
               ],
@@ -77,8 +77,8 @@ class _OTPScreenState extends State<OTPScreen> {
               height: 50,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: ACCENT_GREEN,
-                    textStyle: const TextStyle(color: BACKGROUND_DARK)),
+                    backgroundColor: accentGreen,
+                    textStyle: const TextStyle(color: backgroundDark)),
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => const BottomNav()),
@@ -87,7 +87,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 },
                 child: const Text(
                   'Verify',
-                  style: TextStyle(fontSize: 20, color: BACKGROUND_DARK),
+                  style: TextStyle(fontSize: 20, color: backgroundDark),
                 ),
               ),
             ),

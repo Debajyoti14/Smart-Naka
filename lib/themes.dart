@@ -4,14 +4,8 @@ import 'package:smart_naka_ethos/utils/constants.dart';
 
 final darkThemeData = ThemeData(
   brightness: Brightness.dark,
-  primaryColor: BACKGROUND_DARK,
-  scaffoldBackgroundColor: BACKGROUND_DARK,
+  primaryColor: backgroundDark,
+  scaffoldBackgroundColor: backgroundDark,
   textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
-  colorScheme: const ColorScheme.dark(primary: BACKGROUND_DARK),
-  // buttonTheme: const ButtonThemeData(
-  //   minWidth: 200,
-  //   height: 100,
-  //   buttonColor: ACCENT_GREEN,
-  //   textTheme: ButtonTextTheme.primary,
-  // ),
+  colorScheme: const ColorScheme.dark(primary: backgroundDark),
 );

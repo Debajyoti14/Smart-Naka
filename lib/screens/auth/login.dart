@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: DEFAULT_PADDING,
+          horizontal: defaultPadding,
           vertical: 25,
         ),
         child: Column(
@@ -77,8 +77,8 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: ACCENT_GREEN,
-                        textStyle: const TextStyle(color: BACKGROUND_DARK)),
+                        backgroundColor: accentGreen,
+                        textStyle: const TextStyle(color: backgroundDark)),
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     child: const Text(
                       'Verify',
-                      style: TextStyle(fontSize: 20, color: BACKGROUND_DARK),
+                      style: TextStyle(fontSize: 20, color: backgroundDark),
                     ),
                   ),
                 )

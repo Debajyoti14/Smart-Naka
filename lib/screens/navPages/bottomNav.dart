@@ -17,7 +17,6 @@ class _BottomNavState extends State<BottomNav> {
     setState(() {
       _selectedIndex = index;
     });
-    print(_selectedIndex);
   }
 
   static const bottomNavigationBarItemList = <BottomNavigationBarItem>[
@@ -63,17 +62,15 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _pages.elementAt(_selectedIndex), //New
-      ),
+      body: _pages.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
         currentIndex: _selectedIndex,
         items: bottomNavigationBarItemList,
         onTap: _onItemTapped,
-        backgroundColor: BACKGROUND_DARK,
-        selectedItemColor: ACCENT_GREEN,
+        backgroundColor: backgroundDark,
+        selectedItemColor: accentGreen,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
       ),
