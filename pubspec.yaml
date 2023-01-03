@@ -33,8 +33,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_otp_text_field: ^1.1.1
+  get: ^4.6.5
   google_fonts: ^3.0.1
   http: ^0.13.5
+  image_picker: ^0.8.3
 
 dev_dependencies:
   flutter_lints: ^2.0.0

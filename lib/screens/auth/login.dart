@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_naka_ethos/screens/otp.dart';
+import 'package:smart_naka_ethos/screens/auth/otp.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
 
 class LoginPage extends StatefulWidget {

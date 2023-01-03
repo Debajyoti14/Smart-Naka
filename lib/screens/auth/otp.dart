@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:smart_naka_ethos/screens/navPages/bottomNav.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
 
 class OTPScreen extends StatefulWidget {
@@ -79,8 +80,9 @@ class _OTPScreenState extends State<OTPScreen> {
                     backgroundColor: ACCENT_GREEN,
                     textStyle: const TextStyle(color: BACKGROUND_DARK)),
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const OTPScreen()),
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const BottomNav()),
+                    (Route<dynamic> route) => false,
                   );
                 },
                 child: const Text(

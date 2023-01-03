@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_naka_ethos/screens/login.dart';
+import 'package:smart_naka_ethos/screens/auth/login.dart';
 import 'package:smart_naka_ethos/themes.dart';
 
 void main() {
