@@ -22,20 +22,20 @@ class _BottomNavState extends State<BottomNav> {
 
   static const bottomNavigationBarItemList = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
+      icon: Icon(Icons.car_crash_rounded),
+      label: 'Car History',
+    ),
+    BottomNavigationBarItem(
       icon: Icon(Icons.track_changes),
-      label: 'Track',
+      label: 'Track a Car',
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.camera),
-      label: 'Camera',
+      icon: Icon(Icons.home),
+      label: 'Home',
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.chat),
-      label: 'Chats',
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.call),
-      label: 'Calls',
+      icon: Icon(Icons.book),
+      label: 'Add Missing Diary',
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.person),
@@ -67,8 +67,15 @@ class _BottomNavState extends State<BottomNav> {
         child: _pages.elementAt(_selectedIndex), //New
       ),
       bottomNavigationBar: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        currentIndex: _selectedIndex,
         items: bottomNavigationBarItemList,
         onTap: _onItemTapped,
+        backgroundColor: BACKGROUND_DARK,
+        selectedItemColor: ACCENT_GREEN,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }
