@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_naka_ethos/screens/navPages/homePage.dart';
+import 'package:smart_naka_ethos/screens/navPages/profile.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
 
 import 'add_missing_diary.dart';
@@ -53,10 +54,7 @@ class _BottomNavState extends State<BottomNav> {
     ),
     HomePage(),
     AddMissingDiary(),
-    Icon(
-      Icons.chat,
-      size: 150,
-    ),
+    ProfileScreen()
   ];
 
   @override

@@ -17,7 +17,10 @@ class CustomGreenButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor: accentGreen,
-            textStyle: const TextStyle(color: backgroundDark)),
+            textStyle: const TextStyle(color: backgroundDark),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            )),
         onPressed: onPressed,
         child: Text(
           buttonText,
