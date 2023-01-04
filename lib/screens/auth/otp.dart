@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:smart_naka_ethos/controller/auth_controller.dart';
 import 'package:smart_naka_ethos/screens/navPages/bottomNav.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
 
@@ -60,7 +61,10 @@ class _OTPScreenState extends State<OTPScreen> {
                   //handle validation or checks here
                 },
                 //runs when every textfield is filled
-                onSubmit: (String verificationCode) {
+                onSubmit: (String verificationCode) async {
+                  final response =
+                      await AuthController().verifyOTP(verificationCode);
+                  print(response.body);
                   showDialog(
                       context: context,
                       builder: (context) {

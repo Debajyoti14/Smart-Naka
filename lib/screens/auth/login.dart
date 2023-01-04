@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smart_naka_ethos/controller/auth_controller.dart';
 import 'package:smart_naka_ethos/screens/auth/otp.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
+import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -47,29 +49,19 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Column(
               children: [
-                TextFormField(
-                  cursorColor: Colors.white,
-                  decoration: const InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 7,
-                        horizontal: 13,
-                      ),
-                      hintText: 'Enter Police ID'),
-                  onSaved: (value) => setState(() {
-                    policeID = value!;
-                  }),
+                CustomTextField(
+                  hintText: 'Enter Police ID',
                   validator: (value) {
                     if (value!.trim().isEmpty) {
                       return 'ID Required';
                     }
                     return null;
                   },
+                  onSaved: (value) => setState(
+                    () {
+                      policeID = value!;
+                    },
+                  ),
                 ),
                 const SizedBox(height: 25),
                 SizedBox(
@@ -80,10 +72,13 @@ class _LoginPageState extends State<LoginPage> {
                         backgroundColor: accentGreen,
                         textStyle: const TextStyle(color: backgroundDark)),
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const OTPScreen()),
-                      );
+                      AuthController().getOTP().then((value) {
+                        print(value);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => const OTPScreen()),
+                        );
+                      });
                     },
                     child: const Text(
                       'Verify',
