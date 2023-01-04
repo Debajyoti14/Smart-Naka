@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
+import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
-import '../../dummyDB/stolen_cars.dart';
 import '../../utils/constants.dart';
-import 'homePage.dart';
 
 class AddMissingDiary extends StatefulWidget {
   const AddMissingDiary({super.key});
@@ -32,7 +31,7 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SingleChildScrollView(
       child: Form(
         key: _formKey,
         child: Padding(
@@ -41,6 +40,7 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 20),
               ListTile(
                 leading: const CircleAvatar(
                   radius: 30,
@@ -92,47 +92,68 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
               CustomTextField(hintText: 'Enter Car Model'),
               const SizedBox(height: 10),
               CustomTextField(hintText: 'Enter Color'),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Column(
+                  children: [
+                    const Text(
+                      'Add Car Photos',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      'Minimum 1 Image required',
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ],
+                ),
+                (imageFileList.length < 3)
+                    ? IconButton(
+                        color: accentGreen,
+                        icon: const Icon(Icons.add_a_photo),
+                        onPressed: () {
+                          selectImages();
+                        },
+                      )
+                    : const Text('Max 3 Images!'),
+              ]),
+              const SizedBox(
+                height: 20,
+              ),
+              (imageFileList.isNotEmpty)
+                  ? GridView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: imageFileList.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3, crossAxisSpacing: 10),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Image.file(
+                          File(imageFileList[index].path),
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    )
+                  : Container(),
+              const SizedBox(height: 20),
               const Text(
-                'Add Car Photos',
+                'Owner Details',
                 style: TextStyle(fontSize: 20),
               ),
-              Text(
-                'Minimum 1 Image required',
-                style: Theme.of(context).textTheme.caption,
+              const SizedBox(height: 10),
+              CustomTextField(hintText: 'Enter Owner Name'),
+              const SizedBox(height: 10),
+              CustomTextField(hintText: 'Enter Phone Number'),
+              const SizedBox(height: 10),
+              CustomTextField(hintText: 'Address'),
+              const SizedBox(height: 20),
+              CustomGreenButton(
+                buttonText: 'Add Missing Diary',
+                onPressed: () {},
               )
             ],
           ),
         ),
-        // children: [
-        // MaterialButton(
-        //     color: Colors.blue,
-        //     child: const Text(
-        //       "Pick Images from Gallery",
-        //       style: TextStyle(
-        //           color: Colors.white70, fontWeight: FontWeight.bold),
-        //     ),
-        //     onPressed: () {
-        //       selectImages();
-        //     }),
-        // const SizedBox(
-        //   height: 20,
-        // ),
-        // Expanded(
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(8.0),
-        //     child: GridView.builder(
-        //       itemCount: imageFileList.length,
-        //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        //           crossAxisCount: 3),
-        //       itemBuilder: (BuildContext context, int index) {
-        //         return Image.file(File(imageFileList[index].path),
-        //             fit: BoxFit.cover);
-        //       },
-        //     ),
-        //   ),
-        // )
-        // ],
       ),
     );
   }

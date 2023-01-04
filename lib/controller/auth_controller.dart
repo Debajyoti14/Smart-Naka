@@ -14,22 +14,21 @@ class AuthController {
     var response = await http.post(url,
         headers: {"Content-Type": "application/json"}, body: body);
     print("${response.statusCode}");
-    print("${response.body}");
     return response;
   }
 
-  Future<http.Response> verifyOTP(String OTPEntered) async {
+  Future<http.Response> verifyOTP(String otpEntered) async {
     var url = Uri.parse(
         'https://g8ujux4qw4.execute-api.ap-south-1.amazonaws.com/dev-test/verify-otp');
 
-    Map data = {'number': '7687979148', 'otp': OTPEntered};
+    Map data = {'number': '7687979148', 'otp': otpEntered};
 
     var body = json.encode(data);
 
     var response = await http.post(url,
         headers: {"Content-Type": "application/json"}, body: body);
     print("${response.statusCode}");
-    print("${response.body}");
+    print(response.body);
     return response;
   }
 }

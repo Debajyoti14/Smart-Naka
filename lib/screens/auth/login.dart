@@ -4,6 +4,8 @@ import 'package:smart_naka_ethos/screens/auth/otp.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
 import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
 
+import '../../widgets/green_buttons.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -64,28 +66,19 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: accentGreen,
-                        textStyle: const TextStyle(color: backgroundDark)),
+                CustomGreenButton(
+                    buttonText: 'Verify',
                     onPressed: () {
-                      AuthController().getOTP().then((value) {
-                        print(value);
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => const OTPScreen()),
-                        );
-                      });
-                    },
-                    child: const Text(
-                      'Verify',
-                      style: TextStyle(fontSize: 20, color: backgroundDark),
-                    ),
-                  ),
-                )
+                      AuthController().getOTP().then(
+                        (value) {
+                          print(value);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const OTPScreen()),
+                          );
+                        },
+                      );
+                    })
               ],
             )
           ],

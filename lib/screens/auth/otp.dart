@@ -3,6 +3,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:smart_naka_ethos/controller/auth_controller.dart';
 import 'package:smart_naka_ethos/screens/navPages/bottomNav.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
+import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({super.key});
@@ -66,33 +67,28 @@ class _OTPScreenState extends State<OTPScreen> {
                       await AuthController().verifyOTP(verificationCode);
                   print(response.body);
                   showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text("Verification Code"),
-                          content: Text('Code entered is $verificationCode'),
-                        );
-                      });
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Verification Code"),
+                        content: Text('Code entered is $verificationCode'),
+                      );
+                    },
+                  );
                 }, // end onSubmit
               ),
             ),
             SizedBox(
               width: double.infinity,
               height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: accentGreen,
-                    textStyle: const TextStyle(color: backgroundDark)),
+              child: CustomGreenButton(
+                buttonText: 'Verify',
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => const BottomNav()),
                     (Route<dynamic> route) => false,
                   );
                 },
-                child: const Text(
-                  'Verify',
-                  style: TextStyle(fontSize: 20, color: backgroundDark),
-                ),
               ),
             ),
             const SizedBox(height: 10),
