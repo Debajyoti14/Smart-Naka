@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:smart_naka_ethos/controller/auth_controller.dart';
+import 'package:smart_naka_ethos/controller/user_controller.dart';
 import 'package:smart_naka_ethos/screens/auth/otp.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
 import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
@@ -30,8 +32,9 @@ class _LoginPageState extends State<LoginPage> {
   //   print("${response.body}");
   //   return response;
   // }
-
   String policeID = '';
+  var loginController = Get.put(AuthController());
+  var policeController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
             Column(
               children: [
                 CustomTextField(
+                  controller: policeController.policeIDController,
                   hintText: 'Enter Police ID',
                   validator: (value) {
                     if (value!.trim().isEmpty) {
@@ -59,25 +63,30 @@ class _LoginPageState extends State<LoginPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) => setState(
-                    () {
-                      policeID = value!;
-                    },
-                  ),
                 ),
                 const SizedBox(height: 25),
                 CustomGreenButton(
                     buttonText: 'Verify',
-                    onPressed: () {
-                      AuthController().getOTP().then(
-                        (value) {
-                          print(value);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const OTPScreen()),
-                          );
-                        },
-                      );
+                    onPressed: () async {
+                      try {
+                        final policeDetails =
+                            await policeController.getUserDetails();
+
+                        await loginController.getOTP(policeDetails.number).then(
+                          (value) {
+                            print(value.body);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => OTPScreen(
+                                  phoneNumber: policeDetails.number,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      } catch (e) {
+                        print(e.toString());
+                      }
                     })
               ],
             )

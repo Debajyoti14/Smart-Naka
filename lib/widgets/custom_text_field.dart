@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final bool obscureText;
+  final TextEditingController? controller;
   final Function? onChanged;
   final FormFieldSetter? onSaved;
   final FormFieldValidator? validator;
@@ -15,11 +16,13 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.initialValue,
     required this.hintText,
+    this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       cursorColor: Colors.white,
       decoration: InputDecoration(
           focusedBorder: const OutlineInputBorder(
