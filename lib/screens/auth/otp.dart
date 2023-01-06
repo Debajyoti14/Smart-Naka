@@ -1,17 +1,24 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/controller/auth_controller.dart';
 import 'package:smart_naka_ethos/screens/navPages/bottomNav.dart';
+import 'package:smart_naka_ethos/utils/api_url.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
+import 'package:http/http.dart' as http;
 
 class OTPScreen extends StatefulWidget {
   final String phoneNumber;
-  const OTPScreen({super.key, required this.phoneNumber});
+  final String policeStation;
+  const OTPScreen(
+      {super.key, required this.phoneNumber, required this.policeStation});
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -19,6 +26,33 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   String otp = '';
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  final apiKey = dotenv.env['API_KEY'];
+
+  _subscribeDevice(String deviceToken, String policeStation) async {
+    print(deviceToken);
+    final url = Uri.parse('$apiURL/subscribe-device');
+    final Map<String, dynamic> map = {
+      "topicName": policeStation,
+      "deviceToken": deviceToken
+    };
+
+    var body = json.encode(map);
+
+    var response = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey!,
+      },
+      body: body,
+    );
+    print(response.statusCode);
+    print(response.body);
+    return response;
+  }
 
   var loginController = Get.put(AuthController());
   @override
@@ -81,16 +115,23 @@ class _OTPScreenState extends State<OTPScreen> {
                   try {
                     print('Here is the -------> $otp');
                     final response = await loginController.verifyOTP(
-                        widget.phoneNumber, otp);
+                      widget.phoneNumber,
+                      otp,
+                    );
                     final responseData = json.decode(response.body);
                     print(responseData['success']);
-                    if (responseData['success'] == 'true') {
+                    if (response.statusCode == 200) {
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.setBool('isLoggedIn', true);
+                      // For subscribe to Topics
+                      _firebaseMessaging.getToken().then((token) =>
+                          _subscribeDevice(token!, widget.policeStation));
+                      // Redirecting to Page acc. to Login Status
                       if (!mounted) return;
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (context) => const BottomNav()),
+                          builder: (context) => const BottomNav(),
+                        ),
                         (Route<dynamic> route) => false,
                       );
                     } else {

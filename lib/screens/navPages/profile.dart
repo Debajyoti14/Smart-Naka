@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_naka_ethos/screens/auth/login.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
 import '../../utils/constants.dart';
@@ -185,6 +186,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () async {
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.setBool('isLoggedIn', false);
+                if (!mounted) return;
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    (Route<dynamic> route) => false);
               },
             )
           ],

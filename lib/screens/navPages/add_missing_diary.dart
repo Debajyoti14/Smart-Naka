@@ -1,11 +1,15 @@
-import 'dart:io';
-
+import 'dart:convert';
+// import 'dart:html';
+import 'dart:io' as io;
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
+import '../../utils/api_url.dart';
 import '../../utils/constants.dart';
+import 'package:http/http.dart' as http;
 
 class AddMissingDiary extends StatefulWidget {
   const AddMissingDiary({super.key});
@@ -16,6 +20,7 @@ class AddMissingDiary extends StatefulWidget {
 
 class _AddMissingDiaryState extends State<AddMissingDiary> {
   bool isOnDuty = true;
+  final apiKey = dotenv.env['API_KEY'];
   final _formKey = GlobalKey<FormState>();
   final ImagePicker imagePicker = ImagePicker();
 
@@ -28,6 +33,27 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
     }
     setState(() {});
   }
+
+  // Future<http.Response> uploadImages() async {
+  //   final sampleFile = io.File(imageFileList[0].path);
+  //   Blob blob = Blob(await sampleFile.readAsBytes());
+  //   var url = Uri.parse('$apiURL/upload-file');
+
+  //   Map data = {
+  //     'image': blob,
+  //   };
+
+  //   var body = json.encode(data);
+
+  //   var response = await http.post(url,
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "x-api-key": apiKey!,
+  //       },
+  //       body: body);
+  //   print("${response.statusCode}");
+  //   return response;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +155,7 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
                               crossAxisCount: 3, crossAxisSpacing: 10),
                       itemBuilder: (BuildContext context, int index) {
                         return Image.file(
-                          File(imageFileList[index].path),
+                          io.File(imageFileList[index].path),
                           fit: BoxFit.cover,
                         );
                       },
@@ -149,7 +175,9 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
               const SizedBox(height: 20),
               CustomGreenButton(
                 buttonText: 'Add Missing Diary',
-                onPressed: () {},
+                onPressed: () async {
+                  // await uploadImages();
+                },
               )
             ],
           ),
