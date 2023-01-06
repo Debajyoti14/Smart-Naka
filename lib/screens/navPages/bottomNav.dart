@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_naka_ethos/screens/navPages/homePage.dart';
 import 'package:smart_naka_ethos/screens/navPages/profile.dart';
 import 'package:smart_naka_ethos/screens/navPages/retrived_cars.dart';
+import 'package:smart_naka_ethos/screens/navPages/track_car.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
 
 import 'add_missing_diary.dart';
@@ -45,7 +46,7 @@ class _BottomNavState extends State<BottomNav> {
   ];
 
   static const List<Widget> _pages = <Widget>[
-    RetrivedCars(),
+    TrackCar(),
     Icon(
       Icons.camera,
       size: 150,
