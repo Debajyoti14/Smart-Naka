@@ -8,7 +8,8 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Expanded(
-        child: Transform.scale(scale: 6, child: Image.asset('assets/logo.png')),
+        child:
+            Transform.scale(scale: 6.5, child: Image.asset('assets/logo.png')),
       ),
       const SizedBox(height: 30),
       const Text(
