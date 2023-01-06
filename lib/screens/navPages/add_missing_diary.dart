@@ -1,5 +1,3 @@
-import 'dart:convert';
-// import 'dart:html';
 import 'dart:io' as io;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -7,9 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
-import '../../utils/api_url.dart';
 import '../../utils/constants.dart';
-import 'package:http/http.dart' as http;
 
 class AddMissingDiary extends StatefulWidget {
   const AddMissingDiary({super.key});

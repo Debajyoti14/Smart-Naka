@@ -16,7 +16,14 @@ final GlobalKey<NavigatorState> navigatorKey =
     GlobalKey(debugLabel: "Main Navigator");
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('Handling a background message ${message.messageId}');
+  // print('Handling a background message ${message.messageId}');
+  FirebaseMessaging.instance.getInitialMessage().then((message) {
+    if (null != message) {
+      Navigator.of(navigatorKey.currentContext!).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const ProfileScreen()),
+          (route) => false);
+    }
+  });
 }
 
 Future main() async {
@@ -34,39 +41,37 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Future<void> setupInteractedMessage() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    print(message.data['body']);
+    Navigator.of(navigatorKey.currentContext!).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const ProfileScreen()),
+        (route) => false);
+  }
+
   bool isLoggedIn = false;
   @override
   void initState() {
     super.initState();
     requestPermission();
     _checkLoginPrefs();
-    _checkForNotifications();
-  }
-
-  _checkForNotifications() {
-    FirebaseMessaging.onMessageOpenedApp.listen(
-      (RemoteMessage message) {
-        print("FirebaseMessaging Background --------------> ${message.data}");
-        if (message.data['body'] != null) {
-          print(message.data['body']);
-          Navigator.of(navigatorKey.currentContext!).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (_) => const ProfileScreen()),
-              (route) => false);
-        }
-      },
-    ); // Background message
-    FirebaseMessaging.onMessage.listen(
-      (RemoteMessage message) {
-        print("FirebaseMessaging Foreground ${message.data}");
-        if (message.data['title'] == 'This is a message') {
-          print("Working");
-          Navigator.of(navigatorKey.currentContext!).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (_) => const ProfileScreen()),
-              (route) => false);
-        }
-      },
-    ); // Foreground message
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    setupInteractedMessage();
   }
 
   void _checkLoginPrefs() async {
@@ -99,40 +104,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  // initInfo() {
-  //   var androidInitialize =
-  //       const AndroidInitializationSettings('@ipmap/ic_launcher');
-  //   // var iOSInitialize = const IOSInitializationSettings();
-  //   var initializationsSettings =
-  //       InitializationSettings(android: androidInitialize);
-  //   flutterLocalNotificationsPlugin.initialize(initializationsSettings,
-  //       onSelectNotification: (String? payload) async {
-  //     try {
-  //       print('Working --------------');
-  //       print(payload);
-  //       if (payload != null && payload.isNotEmpty) {
-  //         Navigator.push(
-  //           context,
-  //           MaterialPageRoute(
-  //             builder: (context) => NewPage(info: payload.toString()),
-  //           ),
-  //         );
-  //       } else {}
-  //     } catch (e) {}
-  //   });
-
-  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-  //     print("..........onMessage ............");
-  //     print('onMessage: ${message.notification?.title}/${message.data}');
-
-  //     // BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
-  //     //   message.notification!.body.toString(),
-  //     //   htmlFormatBigText: true,
-  //     // );
-  //     // AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(channelId, channelName)
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -143,7 +114,7 @@ class _MyAppState extends State<MyApp> {
       home: AnimatedSplashScreen(
         backgroundColor: backgroundDark,
         centered: true,
-        duration: 3000,
+        duration: 2000,
         splashTransition: SplashTransition.fadeTransition,
         splash: const SplashScreen(),
         nextScreen: isLoggedIn ? const BottomNav() : const LoginPage(),

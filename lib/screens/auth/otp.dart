@@ -94,6 +94,7 @@ class _OTPScreenState extends State<OTPScreen> {
             SizedBox(
               height: 150,
               child: OtpTextField(
+                cursorColor: Colors.white,
                 numberOfFields: 6,
                 borderColor: Colors.grey,
                 focusedBorderColor: Colors.white,
