@@ -27,7 +27,7 @@ class UserController extends GetxController {
           "x-api-key": apiKey!,
         },
         body: body);
-    print("${response.body}");
+    print(response.body);
     userDetails = Police.fromJson(json.decode(response.body));
     return userDetails;
   }

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.smart_naka_ethos">
+    package="com.example.smart_naka">
    <application
         android:label="smart_naka_ethos"
         android:name="${applicationName}"

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/controller/auth_controller.dart';
 import 'package:smart_naka_ethos/screens/navPages/bottomNav.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
@@ -18,6 +19,7 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   String otp = '';
+
   var loginController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
@@ -80,19 +82,11 @@ class _OTPScreenState extends State<OTPScreen> {
                     print('Here is the -------> $otp');
                     final response = await loginController.verifyOTP(
                         widget.phoneNumber, otp);
-                    print('It is the response body ----> ${response.body}');
-                    // showDialog(
-                    //   context: context,
-                    //   builder: (context) {
-                    //     return AlertDialog(
-                    //       title: const Text("Verification Code"),
-                    //       content: Text('Code entered is $otp'),
-                    //     );
-                    //   },
-                    // );
                     final responseData = json.decode(response.body);
                     print(responseData['success']);
                     if (responseData['success'] == 'true') {
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.setBool('isLoggedIn', true);
                       if (!mounted) return;
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(

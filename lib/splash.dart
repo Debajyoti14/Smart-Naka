@@ -6,14 +6,13 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Image.asset('assets/logo.png'),
-        const Text(
-          'Smart Naka',
-          style: TextStyle(color: accentGreen),
-        )
-      ]),
-    );
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Image.asset('assets/logo.png'),
+      const SizedBox(height: 30),
+      const Text(
+        'Smart Naka',
+        style: TextStyle(color: accentGreen, fontSize: 26),
+      )
+    ]);
   }
 }

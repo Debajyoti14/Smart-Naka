@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
 import '../../utils/constants.dart';
@@ -181,7 +182,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 40),
             CustomGreenButton(
               buttonText: 'Log Out',
-              onPressed: () {},
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.setBool('isLoggedIn', false);
+              },
             )
           ],
         ),

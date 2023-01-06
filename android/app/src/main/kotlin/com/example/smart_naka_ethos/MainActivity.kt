@@ -1,4 +1,4 @@
-package com.example.smart_naka_ethos
+package com.example.smart_naka
 
 import io.flutter.embedding.android.FlutterActivity
 
