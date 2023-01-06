@@ -1,6 +1,6 @@
-# smart_naka_ethos
+# Smart Naka
 
-A new Flutter project.
+A new Flutter project for Ethos Hackathon in IIT-Guwahati.
 
 ## Getting Started
 
