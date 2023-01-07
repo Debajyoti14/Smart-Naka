@@ -12,6 +12,7 @@ class Police {
     required this.id,
     required this.name,
     required this.age,
+    required this.avatar,
   });
 
   String policeStation;
@@ -20,6 +21,7 @@ class Police {
   String id;
   String name;
   int age;
+  String avatar;
 
   factory Police.fromJson(Map<String, dynamic> json) => Police(
         policeStation: json["policeStation"],
@@ -28,6 +30,7 @@ class Police {
         id: json["id"],
         name: json["name"],
         age: json["age"],
+        avatar: json["avatar"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,5 +40,6 @@ class Police {
         "id": id,
         "name": name,
         "age": age,
+        "avatar": avatar,
       };
 }

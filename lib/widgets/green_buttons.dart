@@ -16,11 +16,12 @@ class CustomGreenButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            backgroundColor: accentGreen,
-            textStyle: const TextStyle(color: backgroundDark),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            )),
+          backgroundColor: accentGreen,
+          textStyle: const TextStyle(color: backgroundDark),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
         onPressed: onPressed,
         child: Text(
           buttonText,

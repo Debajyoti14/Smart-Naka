@@ -17,8 +17,13 @@ import 'package:http/http.dart' as http;
 class OTPScreen extends StatefulWidget {
   final String phoneNumber;
   final String policeStation;
+  final String policeID;
+
   const OTPScreen(
-      {super.key, required this.phoneNumber, required this.policeStation});
+      {super.key,
+      required this.phoneNumber,
+      required this.policeStation,
+      required this.policeID});
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -124,6 +129,8 @@ class _OTPScreenState extends State<OTPScreen> {
                     if (response.statusCode == 200) {
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.setBool('isLoggedIn', true);
+                      await prefs.setString('policeID', widget.policeID);
+                      // await prefs.setString('isLoggedIn', true);
                       // For subscribe to Topics
                       _firebaseMessaging.getToken().then((token) =>
                           _subscribeDevice(token!, widget.policeStation));

@@ -1,11 +1,17 @@
+import 'dart:convert';
 import 'dart:io' as io;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:simple_s3/simple_s3.dart';
 import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
+import 'package:http/http.dart' as http;
+import 'package:universal_html/html.dart' as html;
 
+import '../../utils/api_url.dart';
 import '../../utils/constants.dart';
+import '../fromNotification/lost_car_notification.dart';
 
 class AddMissingDiary extends StatefulWidget {
   const AddMissingDiary({super.key});
@@ -30,26 +36,33 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
     setState(() {});
   }
 
-  // Future<http.Response> uploadImages() async {
-  //   final sampleFile = io.File(imageFileList[0].path);
-  //   Blob blob = Blob(await sampleFile.readAsBytes());
-  //   var url = Uri.parse('$apiURL/upload-file');
+  _uploadMultipleImages() async {
+    for (var image in imageFileList) {
+      _uploadImages(image);
+    }
+  }
 
-  //   Map data = {
-  //     'image': blob,
-  //   };
+  Future<http.Response> _uploadImages(image) async {
+    final bytes = io.File(image.path).readAsBytesSync();
+    String img64 = base64Encode(bytes);
+    var url = Uri.parse('$apiURL/upload-file');
 
-  //   var body = json.encode(data);
+    Map data = {
+      'imageBinary': img64,
+      'name': image.name,
+    };
 
-  //   var response = await http.post(url,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "x-api-key": apiKey!,
-  //       },
-  //       body: body);
-  //   print("${response.statusCode}");
-  //   return response;
-  // }
+    var body = json.encode(data);
+
+    var response = await http.post(url,
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": apiKey!,
+        },
+        body: body);
+    print(response.body);
+    return response;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,41 +75,6 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
-              ListTile(
-                leading: const CircleAvatar(
-                  radius: 30,
-                  backgroundColor: accentGreen,
-                  child: CircleAvatar(
-                    radius: 25,
-                    backgroundImage: NetworkImage(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Xh9PifMRhzJfnv4DVRnhcFv1DsMB0RtcAQ&usqp=CAU'),
-                  ),
-                ),
-                title: Column(
-                  children: [
-                    const Text('Chingam Pandey'),
-                    Text(
-                      'Head Belgharia Branch',
-                      style: Theme.of(context).textTheme.caption,
-                    )
-                  ],
-                ),
-                trailing: Switch(
-                  activeColor: accentGreen,
-                  activeTrackColor: Colors.white,
-                  inactiveThumbColor: Colors.blueGrey.shade600,
-                  inactiveTrackColor: Colors.grey.shade400,
-                  splashRadius: 50.0,
-                  value: isOnDuty,
-                  onChanged: (value) {
-                    setState(() {
-                      isOnDuty = value;
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(height: 30),
               const Text(
                 'Missing Diary By',
                 style: TextStyle(fontSize: 20),
@@ -172,7 +150,7 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
               CustomGreenButton(
                 buttonText: 'Add Missing Diary',
                 onPressed: () async {
-                  // await uploadImages();
+                  await _uploadMultipleImages();
                 },
               )
             ],

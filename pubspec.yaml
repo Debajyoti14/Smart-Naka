@@ -36,13 +36,15 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.0.2
+  flutter_local_notifications: ^9.2.0
   flutter_otp_text_field: ^1.1.1
   get: ^4.6.5
   google_fonts: ^3.0.1
   http: ^0.13.5
   image_picker: ^0.8.3
   shared_preferences: ^2.0.15
-  flutter_local_notifications: ^9.2.0
+  simple_s3: ^0.3.2
+  universal_html: ^2.0.8
 
 dev_dependencies:
   flutter_lints: ^2.0.0

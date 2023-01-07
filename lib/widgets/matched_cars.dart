@@ -18,10 +18,9 @@ class MatchedCars extends StatelessWidget {
         child: Row(children: [
           SizedBox(
             width: 140,
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: Image.network(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Xh9PifMRhzJfnv4DVRnhcFv1DsMB0RtcAQ&usqp=CAU'),
+            child: Image.network(
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Xh9PifMRhzJfnv4DVRnhcFv1DsMB0RtcAQ&usqp=CAU',
+              fit: BoxFit.fill,
             ),
           ),
           const SizedBox(

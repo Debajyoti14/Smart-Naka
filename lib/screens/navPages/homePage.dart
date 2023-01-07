@@ -1,7 +1,14 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:smart_naka_ethos/models/police.dart';
+
+import '../../controller/user_controller.dart';
 import '../../dummyDB/stolen_cars.dart';
+import '../../utils/api_url.dart';
 import '../../utils/constants.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +19,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isOnDuty = true;
+  var policeController = Get.put(UserController());
+  late Police policeDetails;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return isOnDuty
@@ -21,40 +35,6 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 40),
-                ListTile(
-                  leading: const CircleAvatar(
-                    radius: 30,
-                    backgroundColor: accentGreen,
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundImage: NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Xh9PifMRhzJfnv4DVRnhcFv1DsMB0RtcAQ&usqp=CAU'),
-                    ),
-                  ),
-                  title: Column(
-                    children: [
-                      const Text('Chingam Pandey'),
-                      Text(
-                        'Head Belgharia Branch',
-                        style: Theme.of(context).textTheme.caption,
-                      )
-                    ],
-                  ),
-                  trailing: Switch(
-                    activeColor: accentGreen,
-                    activeTrackColor: Colors.white,
-                    inactiveThumbColor: Colors.blueGrey.shade600,
-                    inactiveTrackColor: Colors.grey.shade400,
-                    splashRadius: 50.0,
-                    value: isOnDuty,
-                    onChanged: (value) {
-                      setState(() {
-                        isOnDuty = value;
-                      });
-                    },
-                  ),
-                ),
                 const SizedBox(height: 30),
                 const Text(
                   'Stolen cars Updates',

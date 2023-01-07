@@ -19,6 +19,10 @@ class _LoginPageState extends State<LoginPage> {
   String policeID = '';
   var loginController = Get.put(AuthController());
   var policeController = Get.put(UserController());
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                                 builder: (context) => OTPScreen(
                                   phoneNumber: policeDetails.number,
                                   policeStation: policeDetails.policeStation,
+                                  policeID: policeDetails.id,
                                 ),
                               ),
                             );

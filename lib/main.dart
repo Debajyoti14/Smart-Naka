@@ -6,25 +6,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/screens/auth/login.dart';
+import 'package:smart_naka_ethos/screens/fromNotification/lost_car_notification.dart';
 import 'package:smart_naka_ethos/screens/navPages/bottomNav.dart';
-import 'package:smart_naka_ethos/screens/navPages/profile.dart';
 import 'package:smart_naka_ethos/splash.dart';
 import 'package:smart_naka_ethos/themes.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
 
 final GlobalKey<NavigatorState> navigatorKey =
     GlobalKey(debugLabel: "Main Navigator");
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // print('Handling a background message ${message.messageId}');
-  FirebaseMessaging.instance.getInitialMessage().then((message) {
-    if (null != message) {
-      Navigator.of(navigatorKey.currentContext!).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => const ProfileScreen()),
-          (route) => false);
-    }
-  });
-}
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,9 +49,11 @@ class _MyAppState extends State<MyApp> {
 
   void _handleMessage(RemoteMessage message) {
     print(message.data['body']);
-    Navigator.of(navigatorKey.currentContext!).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const ProfileScreen()),
-        (route) => false);
+    Navigator.of(navigatorKey.currentContext!).push(MaterialPageRoute(
+      builder: (_) => LostCarNotification(
+        carNo: message.data['body'],
+      ),
+    ));
   }
 
   bool isLoggedIn = false;
