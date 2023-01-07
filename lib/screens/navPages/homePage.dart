@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_naka_ethos/models/police.dart';
 
 import '../../controller/user_controller.dart';
 import '../../dummyDB/stolen_cars.dart';
-import '../../utils/api_url.dart';
 import '../../utils/constants.dart';
-import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/screens/navPages/homePage.dart';
 import 'package:smart_naka_ethos/screens/navPages/profile.dart';
 import 'package:smart_naka_ethos/screens/navPages/retrived_cars.dart';
@@ -17,6 +18,24 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 2;
   bool isOnDuty = true;
+  String policeID = '';
+  String policeName = '';
+  String policeStation = '';
+  String imageURL = '';
+
+  @override
+  void initState() {
+    setPoliceDetails();
+    super.initState();
+  }
+
+  setPoliceDetails() async {
+    final prefs = await SharedPreferences.getInstance();
+    policeID = prefs.getString('policeID') ?? '';
+    policeName = prefs.getString('policeName') ?? '';
+    policeStation = prefs.getString('policeStation') ?? '';
+    imageURL = prefs.getString('imageURL') ?? '';
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -78,20 +97,19 @@ class _BottomNavState extends State<BottomNav> {
                 children: [
                   const SizedBox(height: 50),
                   ListTile(
-                    leading: const CircleAvatar(
+                    leading: CircleAvatar(
                       radius: 30,
                       backgroundColor: accentGreen,
                       child: CircleAvatar(
                         radius: 25,
-                        backgroundImage: NetworkImage(
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Xh9PifMRhzJfnv4DVRnhcFv1DsMB0RtcAQ&usqp=CAU'),
+                        backgroundImage: NetworkImage(imageURL),
                       ),
                     ),
                     title: Column(
                       children: [
-                        const Text('Chingam Pandey'),
+                        Text(policeName),
                         Text(
-                          'Head Belgharia Branch',
+                          policeStation,
                           style: Theme.of(context).textTheme.caption,
                         )
                       ],

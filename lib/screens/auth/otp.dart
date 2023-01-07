@@ -18,12 +18,16 @@ class OTPScreen extends StatefulWidget {
   final String phoneNumber;
   final String policeStation;
   final String policeID;
+  final String policeName;
+  final String imageURL;
 
   const OTPScreen(
       {super.key,
       required this.phoneNumber,
       required this.policeStation,
-      required this.policeID});
+      required this.policeID,
+      required this.policeName,
+      required this.imageURL});
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -130,7 +134,10 @@ class _OTPScreenState extends State<OTPScreen> {
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.setBool('isLoggedIn', true);
                       await prefs.setString('policeID', widget.policeID);
-                      // await prefs.setString('isLoggedIn', true);
+                      await prefs.setString('policeName', widget.policeName);
+                      await prefs.setString(
+                          'policeStation', widget.policeStation);
+                      await prefs.setString('imageURL', widget.imageURL);
                       // For subscribe to Topics
                       _firebaseMessaging.getToken().then((token) =>
                           _subscribeDevice(token!, widget.policeStation));

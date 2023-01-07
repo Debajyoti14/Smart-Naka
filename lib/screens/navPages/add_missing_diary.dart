@@ -3,15 +3,13 @@ import 'dart:io' as io;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:simple_s3/simple_s3.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 import 'package:http/http.dart' as http;
-import 'package:universal_html/html.dart' as html;
 
 import '../../utils/api_url.dart';
 import '../../utils/constants.dart';
-import '../fromNotification/lost_car_notification.dart';
 
 class AddMissingDiary extends StatefulWidget {
   const AddMissingDiary({super.key});
@@ -21,12 +19,43 @@ class AddMissingDiary extends StatefulWidget {
 }
 
 class _AddMissingDiaryState extends State<AddMissingDiary> {
+  final TextEditingController nameEditingController = TextEditingController();
+  final TextEditingController carNoEditingController = TextEditingController();
+  final TextEditingController carModelEditingController =
+      TextEditingController();
+  final TextEditingController carColorEditingController =
+      TextEditingController();
+  final TextEditingController ownerNameEditingController =
+      TextEditingController();
+  final TextEditingController phoneNoEditingController =
+      TextEditingController();
+  final TextEditingController addressEditingController =
+      TextEditingController();
+
   bool isOnDuty = true;
+  List uploadedImageURL = [];
   final apiKey = dotenv.env['API_KEY'];
   final _formKey = GlobalKey<FormState>();
   final ImagePicker imagePicker = ImagePicker();
 
+  String policeID = '';
+  String policeName = '';
+  String policeStation = '';
+
   List<XFile> imageFileList = [];
+
+  @override
+  void initState() {
+    setPoliceDetails();
+    super.initState();
+  }
+
+  setPoliceDetails() async {
+    final prefs = await SharedPreferences.getInstance();
+    policeID = prefs.getString('policeID') ?? '';
+    policeName = prefs.getString('policeName') ?? '';
+    policeStation = prefs.getString('policeStation') ?? '';
+  }
 
   void selectImages() async {
     final List<XFile> selectedImages = await imagePicker.pickMultiImage();
@@ -38,11 +67,56 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
 
   _uploadMultipleImages() async {
     for (var image in imageFileList) {
-      _uploadImages(image);
+      final url = await _uploadImages(image);
+      print(url);
+      uploadedImageURL.add(url);
     }
   }
 
-  Future<http.Response> _uploadImages(image) async {
+  _checkMissingCar() async {
+    await _uploadMultipleImages();
+    var url = Uri.parse('$apiURL/lost-car/missing-dairy');
+
+    Map data = {
+      "missingDairyData": {
+        "number": carNoEditingController.text,
+        "carOwnerDetails": {
+          "address": addressEditingController.text,
+          "name": ownerNameEditingController.text,
+          "phone": phoneNoEditingController.text
+        },
+        "color": carColorEditingController.text,
+        "imgs": uploadedImageURL,
+        "isFound": false,
+        "lostDiaryDetails": {
+          "email": "rajdeep@gmail.com",
+          "filedAtTimeStamp": 1672816550273,
+          "filedBy": nameEditingController.text,
+          "filedByOfficer": {"id": policeID, "name": policeName},
+          "filedPoliceStation": policeStation
+        },
+        "model": carModelEditingController.text,
+        "trackDetails": []
+      }
+    };
+
+    print(data);
+
+    var body = json.encode(data);
+
+    var response = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey!,
+      },
+      body: body,
+    );
+    print(response.body);
+    return response.body;
+  }
+
+  _uploadImages(image) async {
     final bytes = io.File(image.path).readAsBytesSync();
     String img64 = base64Encode(bytes);
     var url = Uri.parse('$apiURL/upload-file');
@@ -61,7 +135,7 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
         },
         body: body);
     print(response.body);
-    return response;
+    return response.body;
   }
 
   @override
@@ -80,18 +154,30 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
                 style: TextStyle(fontSize: 20),
               ),
               const SizedBox(height: 10),
-              CustomTextField(hintText: 'Enter Name'),
+              CustomTextField(
+                hintText: 'Enter Name',
+                controller: nameEditingController,
+              ),
               const SizedBox(height: 10),
               const Text(
                 'Car Details',
                 style: TextStyle(fontSize: 20),
               ),
               const SizedBox(height: 10),
-              CustomTextField(hintText: 'Enter Car Number'),
+              CustomTextField(
+                hintText: 'Enter Car Number',
+                controller: carNoEditingController,
+              ),
               const SizedBox(height: 10),
-              CustomTextField(hintText: 'Enter Car Model'),
+              CustomTextField(
+                hintText: 'Enter Car Model',
+                controller: carModelEditingController,
+              ),
               const SizedBox(height: 10),
-              CustomTextField(hintText: 'Enter Color'),
+              CustomTextField(
+                hintText: 'Enter Color',
+                controller: carColorEditingController,
+              ),
               const SizedBox(height: 20),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Column(
@@ -141,16 +227,25 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
                 style: TextStyle(fontSize: 20),
               ),
               const SizedBox(height: 10),
-              CustomTextField(hintText: 'Enter Owner Name'),
+              CustomTextField(
+                hintText: 'Enter Owner Name',
+                controller: ownerNameEditingController,
+              ),
               const SizedBox(height: 10),
-              CustomTextField(hintText: 'Enter Phone Number'),
+              CustomTextField(
+                hintText: 'Enter Phone Number',
+                controller: phoneNoEditingController,
+              ),
               const SizedBox(height: 10),
-              CustomTextField(hintText: 'Address'),
+              CustomTextField(
+                hintText: 'Address',
+                controller: addressEditingController,
+              ),
               const SizedBox(height: 20),
               CustomGreenButton(
                 buttonText: 'Add Missing Diary',
                 onPressed: () async {
-                  await _uploadMultipleImages();
+                  await _checkMissingCar();
                 },
               )
             ],

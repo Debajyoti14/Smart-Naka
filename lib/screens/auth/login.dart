@@ -67,9 +67,11 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => OTPScreen(
+                                  imageURL: policeDetails.avatar,
                                   phoneNumber: policeDetails.number,
                                   policeStation: policeDetails.policeStation,
                                   policeID: policeDetails.id,
+                                  policeName: policeDetails.name,
                                 ),
                               ),
                             );

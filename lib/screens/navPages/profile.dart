@@ -14,8 +14,29 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isDarkTheme = true;
+  String policeID = '';
+  String policeName = '';
+  String policeStation = '';
+  String imageURL =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWeTekI6pbMf77pjGcHI2id9k1U8IdM5WtGg&usqp=CAU';
+  @override
+  void initState() {
+    setPoliceDetails();
+    super.initState();
+  }
+
+  setPoliceDetails() async {
+    final prefs = await SharedPreferences.getInstance();
+    policeID = prefs.getString('policeID') ?? '';
+    policeName = prefs.getString('policeName') ?? '';
+    policeStation = prefs.getString('policeStation') ?? '';
+    imageURL = prefs.getString('imageURL') ??
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWeTekI6pbMf77pjGcHI2id9k1U8IdM5WtGg&usqp=CAU';
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(policeName);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
@@ -24,24 +45,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 40),
-              const SizedBox(
+              SizedBox(
                 width: double.infinity,
                 child: CircleAvatar(
                   radius: 50,
                   backgroundColor: accentGreen,
                   child: CircleAvatar(
                     radius: 45,
-                    backgroundImage: NetworkImage(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Xh9PifMRhzJfnv4DVRnhcFv1DsMB0RtcAQ&usqp=CAU'),
+                    backgroundImage: NetworkImage(imageURL),
                   ),
                 ),
               ),
-              const Text(
-                'Debajyoti Saha',
-                style: TextStyle(fontSize: 20),
+              Text(
+                policeName,
+                style: const TextStyle(fontSize: 20),
               ),
               Text(
-                'Belgoria Police Station',
+                policeStation,
                 style: Theme.of(context).textTheme.caption,
               ),
               const SizedBox(height: 40),
@@ -192,6 +212,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.setBool('isLoggedIn', false);
                   await prefs.remove('policeID');
+                  await prefs.remove('policeName');
+                  await prefs.remove('policeStation');
+                  await prefs.remove('imageURL');
 
                   if (!mounted) return;
                   Navigator.of(context).pushAndRemoveUntil(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:smart_naka_ethos/widgets/matched_cars.dart';
 
 import '../../dummyDB/stolen_cars.dart';
-import '../../utils/constants.dart';
 
 class RetrivedCars extends StatefulWidget {
   const RetrivedCars({super.key});
