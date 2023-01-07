@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:smart_naka_ethos/screens/navPages/profile.dart';
 import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/api_url.dart';
+import '../track_car_display.dart';
 
 class TrackCar extends StatefulWidget {
   const TrackCar({super.key});
@@ -44,10 +44,12 @@ class _TrackCarState extends State<TrackCar> {
           content: Text('No Stolen Cars Found with this Car No.'));
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const TrackCarDisplay()));
     } else {
       if (!mounted) return;
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const TrackCarDisplay()));
     }
     return response.body;
   }

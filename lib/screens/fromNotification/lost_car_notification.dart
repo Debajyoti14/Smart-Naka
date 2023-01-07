@@ -46,8 +46,10 @@ class _LostCarNotificationState extends State<LostCarNotification> {
       future: _getLostCarDetails(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(
-            color: accentGreen,
+          return const Center(
+            child: CircularProgressIndicator(
+              color: accentGreen,
+            ),
           );
         }
         if (snapshot.hasError) {
@@ -186,7 +188,10 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  const CustomGreenButton(buttonText: 'Mark as card found')
+                  CustomGreenButton(
+                    buttonText: 'Mark as card found',
+                    onPressed: () {},
+                  )
                 ],
               ),
             ),
