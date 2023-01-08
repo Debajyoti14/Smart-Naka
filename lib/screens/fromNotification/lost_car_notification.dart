@@ -142,7 +142,7 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                   TextField(
                     controller: _textFieldAddressController,
                     decoration:
-                        const InputDecoration(hintText: "Owner Address"),
+                        const InputDecoration(hintText: "Car Found Place"),
                   ),
                   TextField(
                     controller: _textFieldEmailController,
@@ -343,6 +343,14 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                       setState(() {});
 
                       await _setCarFound();
+                      if (!mounted) return;
+                      Navigator.of(context).pop();
+                      var snackBar = const SnackBar(
+                        backgroundColor: Colors.grey,
+                        content: Text('Car retrieved successfully recorded'),
+                      );
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
                       _isLoading = false;
                       setState(() {});
