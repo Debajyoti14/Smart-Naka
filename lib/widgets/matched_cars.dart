@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
 class MatchedCars extends StatelessWidget {
-  final String? modelNo;
-  final String? carColor;
-  final String? carNo;
-  const MatchedCars({super.key, this.modelNo, this.carColor, this.carNo});
+  final String modelNo;
+  final String carColor;
+  final String carNo;
+  final String imageURL;
+  const MatchedCars(
+      {super.key,
+      required this.modelNo,
+      required this.carColor,
+      required this.carNo,
+      required this.imageURL});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +25,7 @@ class MatchedCars extends StatelessWidget {
           SizedBox(
             width: 140,
             child: Image.network(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Xh9PifMRhzJfnv4DVRnhcFv1DsMB0RtcAQ&usqp=CAU',
+              imageURL,
               fit: BoxFit.fill,
             ),
           ),
@@ -31,15 +37,15 @@ class MatchedCars extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                modelNo!,
+                modelNo,
                 style: const TextStyle(fontSize: 20),
               ),
               Text(
-                carNo!,
+                carNo,
                 style: const TextStyle(fontSize: 16),
               ),
               Text(
-                carColor!,
+                carColor,
                 style: const TextStyle(fontSize: 16),
               ),
             ],

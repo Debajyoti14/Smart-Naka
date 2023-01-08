@@ -60,28 +60,34 @@ class _TrackCarState extends State<TrackCar> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 60),
-          Image.asset("assets/car.png"),
-          const SizedBox(
-            height: 60,
-          ),
-          CustomTextField(
-            hintText: "Enter car Number",
-            controller: carNumberEditingController,
-          ),
-          const SizedBox(
-            height: 40,
-          ),
-          CustomGreenButton(
-            buttonText: "Search",
-            onPressed: () async {
-              await _verifyCarWithNumber(carNumberEditingController.text);
-            },
-          )
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            const Text(
+              'Track a Car',
+              style: TextStyle(fontSize: 20),
+            ),
+            Center(child: Image.asset("assets/trackCar.png")),
+            const SizedBox(
+              height: 60,
+            ),
+            CustomTextField(
+              hintText: "Enter car Number",
+              controller: carNumberEditingController,
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            CustomGreenButton(
+              buttonText: "Search",
+              onPressed: () async {
+                await _verifyCarWithNumber(carNumberEditingController.text);
+              },
+            )
+          ],
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
 import '../../utils/api_url.dart';
@@ -19,6 +20,27 @@ class LostCarNotification extends StatefulWidget {
 
 class _LostCarNotificationState extends State<LostCarNotification> {
   final apiKey = dotenv.env['API_KEY'];
+  String policeID = '';
+  String policeName = '';
+  String policeStation = '';
+  String imageURL =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPasPbrVe2Txcc4aGbZkCddJkVTaj8uyb7A&usqp=CAU';
+
+  @override
+  void initState() {
+    super.initState();
+    setPoliceDetails();
+  }
+
+  setPoliceDetails() async {
+    final prefs = await SharedPreferences.getInstance();
+    policeID = prefs.getString('policeID') ?? '';
+    policeName = prefs.getString('policeName') ?? '';
+    policeStation = prefs.getString('policeStation') ?? '';
+    imageURL = prefs.getString('imageURL') ??
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWeTekI6pbMf77pjGcHI2id9k1U8IdM5WtGg&usqp=CAU';
+    setState(() {});
+  }
 
   _getLostCarDetails() async {
     var url = Uri.parse('$apiURL/lost-cars/get-a-car');
@@ -75,20 +97,19 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                 children: [
                   const SizedBox(height: 40),
                   ListTile(
-                    leading: const CircleAvatar(
+                    leading: CircleAvatar(
                       radius: 30,
                       backgroundColor: accentGreen,
                       child: CircleAvatar(
                         radius: 25,
-                        backgroundImage: NetworkImage(
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Xh9PifMRhzJfnv4DVRnhcFv1DsMB0RtcAQ&usqp=CAU'),
+                        backgroundImage: NetworkImage(imageURL),
                       ),
                     ),
                     title: Column(
                       children: [
-                        const Text('Chingam Pandey'),
+                        Text(policeName),
                         Text(
-                          'Head Belgharia Branch',
+                          policeStation,
                           style: Theme.of(context).textTheme.caption,
                         )
                       ],
@@ -114,7 +135,8 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                   ),
                   const SizedBox(height: 10),
                   Image.network(
-                    carDetails['imgs'][0],
+                    carDetails['imgs'][0] ??
+                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPasPbrVe2Txcc4aGbZkCddJkVTaj8uyb7A&usqp=CAU',
                     width: double.infinity,
                   ),
                   StolenCarWidget(
