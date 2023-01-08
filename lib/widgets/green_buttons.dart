@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_naka_ethos/themes.dart';
-
 import '../utils/constants.dart';
 
 class CustomGreenButton extends StatelessWidget {
@@ -16,7 +14,6 @@ class CustomGreenButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(isLoading);
     return SizedBox(
       height: 50,
       width: double.infinity,
