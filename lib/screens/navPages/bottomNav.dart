@@ -21,7 +21,8 @@ class _BottomNavState extends State<BottomNav> {
   String policeID = '';
   String policeName = '';
   String policeStation = '';
-  String imageURL = '';
+  String imageURL =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPasPbrVe2Txcc4aGbZkCddJkVTaj8uyb7A&usqp=CAU';
 
   @override
   void initState() {
@@ -35,6 +36,7 @@ class _BottomNavState extends State<BottomNav> {
     policeName = prefs.getString('policeName') ?? '';
     policeStation = prefs.getString('policeStation') ?? '';
     imageURL = prefs.getString('imageURL') ?? '';
+    setState(() {});
   }
 
   void _onItemTapped(int index) {

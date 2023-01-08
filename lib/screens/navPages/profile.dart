@@ -18,11 +18,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String policeName = '';
   String policeStation = '';
   String imageURL =
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWeTekI6pbMf77pjGcHI2id9k1U8IdM5WtGg&usqp=CAU';
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPasPbrVe2Txcc4aGbZkCddJkVTaj8uyb7A&usqp=CAU';
   @override
   void initState() {
-    setPoliceDetails();
     super.initState();
+    setPoliceDetails();
   }
 
   setPoliceDetails() async {
@@ -32,11 +32,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     policeStation = prefs.getString('policeStation') ?? '';
     imageURL = prefs.getString('imageURL') ??
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWeTekI6pbMf77pjGcHI2id9k1U8IdM5WtGg&usqp=CAU';
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     print(policeName);
+    print(imageURL);
+    print(policeStation);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
