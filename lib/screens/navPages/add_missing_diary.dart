@@ -31,6 +31,7 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
       TextEditingController();
   final TextEditingController addressEditingController =
       TextEditingController();
+  final TextEditingController emailEditingController = TextEditingController();
 
   bool isOnDuty = true;
   List uploadedImageURL = [];
@@ -41,6 +42,7 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
   String policeID = '';
   String policeName = '';
   String policeStation = '';
+  bool isLoading = false;
 
   List<XFile> imageFileList = [];
 
@@ -74,8 +76,10 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
   }
 
   _checkMissingCar() async {
+    isLoading = true;
+    setState(() {});
     await _uploadMultipleImages();
-    var url = Uri.parse('$apiURL/lost-car/missing-dairy');
+    var url = Uri.parse('$apiURL/lost-cars/missing-dairy');
 
     Map data = {
       "missingDairyData": {
@@ -86,23 +90,22 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
           "phone": phoneNoEditingController.text
         },
         "color": carColorEditingController.text,
-        "imgs": uploadedImageURL,
         "isFound": false,
         "lostDiaryDetails": {
-          "email": "rajdeep@gmail.com",
-          "filedAtTimeStamp": 1672816550273,
+          "email": emailEditingController.text,
+          "filedAtTimeStamp": DateTime.now().millisecondsSinceEpoch,
           "filedBy": nameEditingController.text,
           "filedByOfficer": {"id": policeID, "name": policeName},
           "filedPoliceStation": policeStation
         },
         "model": carModelEditingController.text,
-        "trackDetails": []
+        "trackDetails": [],
+        "imgs": uploadedImageURL,
       }
     };
 
-    print(data);
-
     var body = json.encode(data);
+    print(body);
 
     var response = await http.post(
       url,
@@ -112,6 +115,9 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
       },
       body: body,
     );
+    isLoading = false;
+    setState(() {});
+    uploadedImageURL = [];
     print(response.body);
     return response.body;
   }
@@ -134,8 +140,8 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
           "x-api-key": apiKey!,
         },
         body: body);
-    print(response.body);
-    return response.body;
+    final urlImg = json.decode(response.body)['url'];
+    return urlImg;
   }
 
   @override
@@ -238,12 +244,18 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
               ),
               const SizedBox(height: 10),
               CustomTextField(
+                hintText: 'Email',
+                controller: emailEditingController,
+              ),
+              const SizedBox(height: 10),
+              CustomTextField(
                 hintText: 'Address',
                 controller: addressEditingController,
               ),
               const SizedBox(height: 20),
               CustomGreenButton(
                 buttonText: 'Add Missing Diary',
+                isLoading: isLoading,
                 onPressed: () async {
                   await _checkMissingCar();
                 },

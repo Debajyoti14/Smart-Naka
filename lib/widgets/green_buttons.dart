@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:smart_naka_ethos/themes.dart';
 
 import '../utils/constants.dart';
 
 class CustomGreenButton extends StatelessWidget {
   final String buttonText;
+  final bool isLoading;
   final void Function()? onPressed;
 
   const CustomGreenButton(
-      {super.key, required this.buttonText, this.onPressed});
+      {super.key,
+      required this.buttonText,
+      this.onPressed,
+      this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
+    print(isLoading);
     return SizedBox(
       height: 50,
       width: double.infinity,
@@ -22,11 +28,19 @@ class CustomGreenButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        onPressed: onPressed,
-        child: Text(
-          buttonText,
-          style: const TextStyle(fontSize: 20, color: backgroundDark),
-        ),
+        onPressed: isLoading ? null : onPressed,
+        child: isLoading
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  color: backgroundDark,
+                ),
+              )
+            : Text(
+                buttonText,
+                style: const TextStyle(fontSize: 20, color: backgroundDark),
+              ),
       ),
     );
   }

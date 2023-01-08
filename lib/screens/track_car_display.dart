@@ -2,58 +2,76 @@ import 'package:flutter/material.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
 class TrackCarDisplay extends StatelessWidget {
-  const TrackCarDisplay({super.key});
+  final Map<String, dynamic> trackDetails;
+  const TrackCarDisplay({super.key, required this.trackDetails});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            const Text(
-              'Car Details',
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 60),
-            Image.asset("assets/car.png"),
-            const SizedBox(
-              height: 60,
-            ),
-            const StolenCarWidget(
-              carColor: 'White',
-              carNo: 'WB124DH',
-              lastLocation: 'Ruby Crossing',
-              lastSeen: '9:00 AM',
-              modelNo: 'HYUNDAI',
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Tracking History',
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.white)),
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-              child: const Text(
-                'Found at Ruby crossing at 9:06AM 📍',
-                textAlign: TextAlign.center,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 30,
               ),
-            ),
-            const SizedBox(height: 30),
-            CustomGreenButton(
-              buttonText: 'Turn on Tracking Notification',
-              onPressed: () {},
-            )
-          ],
+              const Text(
+                'Car Details',
+                style: TextStyle(fontSize: 20),
+              ),
+              const SizedBox(height: 60),
+              Align(
+                  alignment: Alignment.center,
+                  child: Image.network(trackDetails['imgs'][0])),
+              const SizedBox(
+                height: 60,
+              ),
+              StolenCarWidget(
+                carColor: trackDetails['color'],
+                carNo: trackDetails['number'],
+                lastLocation: trackDetails['trackDetails'][0]['location'],
+                lastSeen: trackDetails['trackDetails'][0]['timeStamp'],
+                modelNo: trackDetails['model'],
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Tracking History',
+                style: TextStyle(fontSize: 20),
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: trackDetails['trackDetails'].length,
+                itemBuilder: (context, index) {
+                  final lastLocation =
+                      trackDetails['trackDetails'][index]['location'];
+                  final lastSeen =
+                      trackDetails['trackDetails'][index]['timeStamp'];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.white)),
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 10),
+                      child: Text(
+                        'Spotted at $lastLocation ${(DateTime.fromMillisecondsSinceEpoch(lastSeen!)).toString()} 📍',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 30),
+              CustomGreenButton(
+                buttonText: 'Turn on Tracking Notification',
+                onPressed: () {},
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -65,7 +83,7 @@ class StolenCarWidget extends StatelessWidget {
   final String? carColor;
   final String? carNo;
   final String? lastLocation;
-  final String? lastSeen;
+  final int? lastSeen;
 
   const StolenCarWidget(
       {super.key,
@@ -103,7 +121,7 @@ class StolenCarWidget extends StatelessWidget {
             style: const TextStyle(fontSize: 16),
           ),
           Text(
-            'Spotted at $lastLocation $lastSeen  📌',
+            'Spotted at $lastLocation ${(DateTime.fromMillisecondsSinceEpoch(lastSeen!)).toString()}  📌',
             style: const TextStyle(fontSize: 14),
           )
         ],

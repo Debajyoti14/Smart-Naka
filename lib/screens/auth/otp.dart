@@ -130,7 +130,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     );
                     final responseData = json.decode(response.body);
                     print(responseData['success']);
-                    if (response.statusCode == 200) {
+                    if (responseData['success'] == true) {
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.setBool('isLoggedIn', true);
                       await prefs.setString('policeID', widget.policeID);

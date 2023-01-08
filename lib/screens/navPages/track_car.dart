@@ -36,20 +36,20 @@ class _TrackCarState extends State<TrackCar> {
       body: body,
     );
     print(response.statusCode);
-    print(response.body);
-    if (response.body != {}) {
+    final trackDetails = json.decode(response.body);
+    if (response.body.isEmpty) {
       if (!mounted) return;
       var snackBar = const SnackBar(
           backgroundColor: Colors.grey,
           content: Text('No Stolen Cars Found with this Car No.'));
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const TrackCarDisplay()));
     } else {
       if (!mounted) return;
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const TrackCarDisplay()));
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => TrackCarDisplay(
+                trackDetails: trackDetails,
+              )));
     }
     return response.body;
   }
@@ -76,7 +76,7 @@ class _TrackCarState extends State<TrackCar> {
             height: 40,
           ),
           CustomGreenButton(
-            buttonText: "Verify",
+            buttonText: "Search",
             onPressed: () async {
               await _verifyCarWithNumber(carNumberEditingController.text);
             },
