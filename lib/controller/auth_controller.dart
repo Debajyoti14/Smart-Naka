@@ -10,7 +10,6 @@ class AuthController extends GetxController {
 
   Future<http.Response> getOTP(String phoneNo) async {
     var url = Uri.parse('$apiURL/otp/send');
-    print(phoneNo);
     Map data = {'number': phoneNo, 'TTL': '60'};
 
     var body = json.encode(data);

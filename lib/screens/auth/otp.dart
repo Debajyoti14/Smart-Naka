@@ -35,6 +35,7 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   String otp = '';
+  bool _isLoading = false;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -120,10 +121,12 @@ class _OTPScreenState extends State<OTPScreen> {
               width: double.infinity,
               height: 50,
               child: CustomGreenButton(
+                isLoading: _isLoading,
                 buttonText: 'Verify',
                 onPressed: () async {
                   try {
-                    print('Here is the -------> $otp');
+                    _isLoading = true;
+                    setState(() {});
                     final response = await loginController.verifyOTP(
                       widget.phoneNumber,
                       otp,
@@ -149,6 +152,8 @@ class _OTPScreenState extends State<OTPScreen> {
                         ),
                         (Route<dynamic> route) => false,
                       );
+                      _isLoading = false;
+                      setState(() {});
                     } else {
                       var snackBar = const SnackBar(
                           backgroundColor: Colors.grey,

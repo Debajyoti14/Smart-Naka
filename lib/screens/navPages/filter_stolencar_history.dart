@@ -18,6 +18,7 @@ class FilterStolenCarHistory extends StatefulWidget {
 }
 
 class _FilterStolenCarHistoryState extends State<FilterStolenCarHistory> {
+  bool _isLoading = false;
   List<Map<String, dynamic>> filteredCars = [];
   bool isOnDuty = true;
   String filterPoliceStation = 'Patna Police Station';
@@ -44,7 +45,6 @@ class _FilterStolenCarHistoryState extends State<FilterStolenCarHistory> {
       body: body,
     );
     final filteredCarDetails = json.decode(response.body);
-    print(filteredCarDetails);
     if (filteredCarDetails['data'] != []) {
       if (!mounted) return;
       Navigator.of(context).push(
@@ -79,7 +79,6 @@ class _FilterStolenCarHistoryState extends State<FilterStolenCarHistory> {
             const SizedBox(height: 20),
             Center(child: Image.asset('assets/filtersearch.png')),
             const SizedBox(height: 30),
-
             DropdownButton<String>(
               value: filterPoliceStation,
               hint: const Text('Select your Police Station'),
@@ -102,36 +101,16 @@ class _FilterStolenCarHistoryState extends State<FilterStolenCarHistory> {
             ),
             const SizedBox(height: 30),
             CustomGreenButton(
+              isLoading: _isLoading,
               buttonText: 'Search',
               onPressed: () async {
+                _isLoading = true;
+                setState(() {});
                 await _getLostCarDetails();
-
-                // if (filteredCarDetails['data'] != null) {
-                //   if (!mounted) return;
-                //   Navigator.of(context).push(
-                //     MaterialPageRoute(
-                //       builder: (_) => FilterStolenCarDetails(
-                //         filteredCars: filteredCarDetails['data'],
-                //       ),
-                //     ),
-                //   );
-                // }
+                _isLoading = false;
+                setState(() {});
               },
             )
-
-            // ListView.builder(
-            //   physics: const NeverScrollableScrollPhysics(),
-            //   shrinkWrap: true,
-            //   itemCount: stolenCarsData.length,
-            //   itemBuilder: ((context, index) {
-            //     final carData = stolenCarsData[index];
-            //     return MatchedCars(
-            //       modelNo: carData['Model Name'],
-            //       carColor: carData['Car Color'],
-            //       carNo: carData['Car Number'],
-            //     );
-            //   }),
-            // )
           ],
         ),
       ),

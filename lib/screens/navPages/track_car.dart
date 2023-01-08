@@ -17,6 +17,7 @@ class TrackCar extends StatefulWidget {
 }
 
 class _TrackCarState extends State<TrackCar> {
+  bool _isLoading = false;
   final apiKey = dotenv.env['API_KEY'];
 
   _verifyCarWithNumber(String carNumber) async {
@@ -81,9 +82,14 @@ class _TrackCarState extends State<TrackCar> {
               height: 40,
             ),
             CustomGreenButton(
+              isLoading: _isLoading,
               buttonText: "Search",
               onPressed: () async {
+                _isLoading = true;
+                setState(() {});
                 await _verifyCarWithNumber(carNumberEditingController.text);
+                _isLoading = false;
+                setState(() {});
               },
             )
           ],

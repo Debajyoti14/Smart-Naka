@@ -17,12 +17,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String policeID = '';
+  bool _isLoading = false;
   var loginController = Get.put(AuthController());
   var policeController = Get.put(UserController());
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +52,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 25),
                 CustomGreenButton(
+                    isLoading: _isLoading,
                     buttonText: 'Verify',
                     onPressed: () async {
                       try {
+                        _isLoading = true;
+                        setState(() {});
                         final policeDetails =
                             await policeController.getUserDetails();
 
@@ -75,6 +75,8 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             );
+                            _isLoading = false;
+                            setState(() {});
                           },
                         );
                       } catch (e) {
