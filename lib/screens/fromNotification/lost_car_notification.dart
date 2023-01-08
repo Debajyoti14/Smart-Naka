@@ -7,6 +7,7 @@ import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
 import '../../utils/api_url.dart';
 import '../../utils/constants.dart';
+import '../track_car_display.dart';
 
 class LostCarNotification extends StatefulWidget {
   final String carNo;
@@ -28,12 +29,14 @@ class _LostCarNotificationState extends State<LostCarNotification> {
 
     var body = json.encode(data);
 
-    var response = await http.post(url,
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey!,
-        },
-        body: body);
+    var response = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey!,
+      },
+      body: body,
+    );
     final carDetails = json.decode(response.body);
     return carDetails;
   }
@@ -122,6 +125,21 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                     modelNo: carDetails['model'],
                     lastSeen: carDetails['foundCarDetails']
                         ?['foundAtTimeStamp'],
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TrackCarDisplay(
+                            trackDetails: carDetails,
+                          ),
+                        ),
+                      );
+                    },
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: accentGreen),
+                    child: const Text('View Tracking Details'),
                   ),
                   const SizedBox(height: 20),
                   const Text(
