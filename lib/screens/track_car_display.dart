@@ -79,33 +79,37 @@ class TrackCarDisplay extends StatelessWidget {
                 'Tracking History',
                 style: TextStyle(fontSize: 20),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: trackDetails['trackDetails'].length,
-                itemBuilder: (context, index) {
-                  final lastLocation =
-                      trackDetails['trackDetails'][index]['location'];
-                  final lastSeen =
-                      trackDetails['trackDetails'][index]['timeStamp'];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.white),
+              SizedBox(
+                height: 350,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: trackDetails['trackDetails'].length,
+                  itemBuilder: (context, index) {
+                    final lastLocation =
+                        trackDetails['trackDetails'][index]['location'];
+                    final lastSeen =
+                        trackDetails['trackDetails'][index]['timeStamp'];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.white),
+                        ),
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 10,
+                        ),
+                        child: Text(
+                          'Spotted at $lastLocation ${(DateTime.fromMillisecondsSinceEpoch(lastSeen!)).toString()} 📍',
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 10,
-                      ),
-                      child: Text(
-                        'Spotted at $lastLocation ${(DateTime.fromMillisecondsSinceEpoch(lastSeen!)).toString()} 📍',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
               const SizedBox(height: 30),
               CustomGreenButton(

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
@@ -20,16 +21,24 @@ class LostCarNotification extends StatefulWidget {
 
 class _LostCarNotificationState extends State<LostCarNotification> {
   final apiKey = dotenv.env['API_KEY'];
+  bool _isLoading = false;
   String policeID = '';
   String policeName = '';
   String policeStation = '';
+  late final Future myFuture;
   String imageURL =
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPasPbrVe2Txcc4aGbZkCddJkVTaj8uyb7A&usqp=CAU';
+  late Map<String, dynamic> carDetailsFound;
+  final TextEditingController _textFieldAddressController =
+      TextEditingController();
+  final TextEditingController _textFieldEmailController =
+      TextEditingController();
 
   @override
   void initState() {
     super.initState();
     setPoliceDetails();
+    myFuture = _getLostCarDetails();
   }
 
   setPoliceDetails() async {
@@ -60,7 +69,103 @@ class _LostCarNotificationState extends State<LostCarNotification> {
       body: body,
     );
     final carDetails = json.decode(response.body);
+    print(carDetails);
+    carDetailsFound = carDetails;
+
     return carDetails;
+  }
+
+  _setCarFound() async {
+    var url = Uri.parse('$apiURL/lost-cars/found');
+
+    // final date = DateFormat("yy-MM-dd");
+    // final time = DateFormat("Hm");
+    // String onlyDate =
+    //     date.format(carDetailsFound['trackDetails'][0]['timeStamp']);
+    // String onlyTime =
+    //     time.format(carDetailsFound['trackDetails'][0]['timeStamp']);
+    // print('--------------->');
+    // print(onlyDate);
+    // print(onlyTime);
+
+    Map data = {
+      "number": carDetailsFound['number'],
+      "foundCarDetails": {
+        "foundAt": "Patna City",
+        "foundAtpoliceStation": policeStation,
+        "foundAtTimeStamp": 1672816550273,
+        "foundByOfficer": {"id": policeID, "name": policeName}
+      },
+      "emailDetails": {
+        "toEmail": _textFieldEmailController.text,
+        "carNumber": carDetailsFound['number'],
+        "model": carDetailsFound['model'],
+        "color": carDetailsFound['color'],
+        "foundPlace": carDetailsFound['trackDetails'][0]['location'],
+        "foundByPolice": policeName,
+        "policeStation": policeStation,
+        "time":
+            carDetailsFound['foundCarDetails']?['foundAtTimeStamp'].toString(),
+        "date":
+            carDetailsFound['foundCarDetails']?['foundAtTimeStamp'].toString(),
+        "carOwner": carDetailsFound['carOwnerDetails']?['name'],
+        "ownerNumber": carDetailsFound['carOwnerDetails']?['phone'],
+        "ownerAddress": _textFieldAddressController.text
+      }
+    };
+
+    var body = json.encode(data);
+
+    var response = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey!,
+      },
+      body: body,
+    );
+    final carDetails = json.decode(response.body);
+    print(response.statusCode);
+    return carDetails;
+  }
+
+  _displayDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Enter additional details'),
+            content: SizedBox(
+              height: 100,
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _textFieldAddressController,
+                    decoration:
+                        const InputDecoration(hintText: "Owner Address"),
+                  ),
+                  TextField(
+                    controller: _textFieldEmailController,
+                    decoration: const InputDecoration(hintText: "Email"),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                child: const Text(
+                  'Save',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _textFieldEmailController.clear();
+                  _textFieldAddressController.clear();
+                },
+              )
+            ],
+          );
+        });
   }
 
   bool isOnDuty = true;
@@ -68,7 +173,7 @@ class _LostCarNotificationState extends State<LostCarNotification> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: FutureBuilder(
-      future: _getLostCarDetails(),
+      future: myFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -88,7 +193,6 @@ class _LostCarNotificationState extends State<LostCarNotification> {
         }
         if (snapshot.hasData) {
           final carDetails = snapshot.data! as Map<String, dynamic>;
-
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
             child: SingleChildScrollView(
@@ -135,18 +239,20 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                   ),
                   const SizedBox(height: 10),
                   Image.network(
-                    carDetails['imgs'][0] ??
+                    carDetails['imgs']?[0] ??
                         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPasPbrVe2Txcc4aGbZkCddJkVTaj8uyb7A&usqp=CAU',
                     width: double.infinity,
                   ),
+                  const SizedBox(height: 20),
                   StolenCarWidget(
                     carColor: carDetails['color'],
                     carNo: carDetails['number'],
                     lastLocation: carDetails['foundCarDetails']
                         ?['foundAtpoliceStation'],
                     modelNo: carDetails['model'],
-                    lastSeen: carDetails['foundCarDetails']
-                        ?['foundAtTimeStamp'],
+                    lastSeen: DateTime.fromMillisecondsSinceEpoch(
+                            carDetails['trackDetails'][0]?['timeStamp'])
+                        .toString(),
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
@@ -229,8 +335,18 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                   ),
                   const SizedBox(height: 30),
                   CustomGreenButton(
+                    isLoading: _isLoading,
                     buttonText: 'Mark as card found',
-                    onPressed: () {},
+                    onPressed: () async {
+                      await _displayDialog(context);
+                      _isLoading = true;
+                      setState(() {});
+
+                      await _setCarFound();
+
+                      _isLoading = false;
+                      setState(() {});
+                    },
                   )
                 ],
               ),

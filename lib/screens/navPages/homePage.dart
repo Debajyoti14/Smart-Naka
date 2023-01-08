@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_naka_ethos/screens/fromNotification/lost_car_notification.dart';
 
 import '../../controller/user_controller.dart';
 import '../../dummyDB/stolen_cars.dart';
@@ -23,10 +24,12 @@ class _HomePageState extends State<HomePage> {
   var policeController = Get.put(UserController());
   late Map<String, dynamic> policeStationNotification;
   final apiKey = dotenv.env['API_KEY'];
+  late final Future myFuture;
 
   @override
   void initState() {
     super.initState();
+    myFuture = _getPoliceStationNotifications();
   }
 
   _getPoliceStationNotifications() async {
@@ -55,7 +58,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _getPoliceStationNotifications(),
+      future: myFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -99,11 +102,21 @@ class _HomePageState extends State<HomePage> {
                           print(carData);
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            // child: Text('1'),
-                            child: StolenCarHomeWidget(
-                              modelNo: carData['number'],
-                              lastLocation: carData['location'],
-                              lastSeen: carData['timeStamp'],
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => LostCarNotification(
+                                      carNo: carData['number'],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: StolenCarHomeWidget(
+                                modelNo: carData['number'],
+                                lastLocation: carData['location'],
+                                lastSeen: carData['timeStamp'],
+                              ),
                             ),
                           );
                         },
