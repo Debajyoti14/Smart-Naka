@@ -59,13 +59,15 @@ class TrackCarDisplay extends StatelessWidget {
                 'Car Details',
                 style: TextStyle(fontSize: 20),
               ),
-              const SizedBox(height: 60),
+              const SizedBox(height: 40),
               Align(
                 alignment: Alignment.center,
-                child: Image.network(trackDetails['imgs'][0]),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(trackDetails['imgs'][0])),
               ),
               const SizedBox(
-                height: 60,
+                height: 40,
               ),
               StolenCarWidget(
                 carColor: trackDetails['color'],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../utils/constants.dart';
 
 class CustomGreenButton extends StatelessWidget {
@@ -20,7 +21,7 @@ class CustomGreenButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: accentGreen,
-          textStyle: const TextStyle(color: backgroundDark),
+          // textStyle: const TextStyle(color: backgroundDark),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -36,7 +37,10 @@ class CustomGreenButton extends StatelessWidget {
               )
             : Text(
                 buttonText,
-                style: const TextStyle(fontSize: 20, color: backgroundDark),
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: backgroundDark,
+                ),
               ),
       ),
     );

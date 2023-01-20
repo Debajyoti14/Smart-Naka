@@ -239,10 +239,13 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                     style: TextStyle(fontSize: 20),
                   ),
                   const SizedBox(height: 10),
-                  Image.network(
-                    carDetails['imgs']?[0] ??
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPasPbrVe2Txcc4aGbZkCddJkVTaj8uyb7A&usqp=CAU',
-                    width: double.infinity,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      carDetails['imgs']?[0] ??
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPasPbrVe2Txcc4aGbZkCddJkVTaj8uyb7A&usqp=CAU',
+                      width: double.infinity,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   StolenCarWidget(
