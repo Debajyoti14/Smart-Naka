@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/screens/auth/login.dart';
@@ -218,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   if (!mounted) return;
                   Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                           builder: (context) => const LoginPage()),
                       (Route<dynamic> route) => false);
                 },

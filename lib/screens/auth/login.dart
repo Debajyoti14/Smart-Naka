@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_naka_ethos/controller/auth_controller.dart';
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                           (value) {
                             print(value.body);
                             Navigator.of(context).push(
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                 builder: (context) => OTPScreen(
                                   imageURL: policeDetails.avatar,
                                   phoneNumber: policeDetails.number,

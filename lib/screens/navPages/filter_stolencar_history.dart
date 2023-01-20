@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_naka_ethos/screens/navPages/filter_stolencar_details.dart';
@@ -48,7 +49,7 @@ class _FilterStolenCarHistoryState extends State<FilterStolenCarHistory> {
     if (filteredCarDetails['data'] != []) {
       if (!mounted) return;
       Navigator.of(context).push(
-        MaterialPageRoute(
+        CupertinoPageRoute(
           builder: (_) =>
               FilterStolenCarDetails(filteredCars: filteredCarDetails['data']),
         ),

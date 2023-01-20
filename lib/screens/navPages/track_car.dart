@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
@@ -47,10 +48,13 @@ class _TrackCarState extends State<TrackCar> {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
       if (!mounted) return;
-      Navigator.of(context).push(MaterialPageRoute(
+      Navigator.of(context).push(
+        CupertinoPageRoute(
           builder: (context) => TrackCarDisplay(
-                trackDetails: trackDetails,
-              )));
+            trackDetails: trackDetails,
+          ),
+        ),
+      );
     }
     return response.body;
   }

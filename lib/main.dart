@@ -1,7 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
 
   void _handleMessage(RemoteMessage message) {
     print(message.data['body']);
-    Navigator.of(navigatorKey.currentContext!).push(MaterialPageRoute(
+    Navigator.of(navigatorKey.currentContext!).push(CupertinoPageRoute(
       builder: (_) => LostCarNotification(
         carNo: message.data['body'],
       ),

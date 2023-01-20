@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -147,7 +148,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       // Redirecting to Page acc. to Login Status
                       if (!mounted) return;
                       Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                           builder: (context) => const BottomNav(),
                         ),
                         (Route<dynamic> route) => false,
