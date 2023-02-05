@@ -43,7 +43,6 @@ class _OTPScreenState extends State<OTPScreen> {
   final apiKey = dotenv.env['API_KEY'];
 
   _subscribeDevice(String deviceToken, String policeStation) async {
-    print(deviceToken);
     final url = Uri.parse('$apiURL/subscribe-device');
     final Map<String, dynamic> map = {
       "topicName": policeStation,
@@ -60,8 +59,6 @@ class _OTPScreenState extends State<OTPScreen> {
       },
       body: body,
     );
-    print(response.statusCode);
-    print(response.body);
     return response;
   }
 
@@ -96,9 +93,9 @@ class _OTPScreenState extends State<OTPScreen> {
               'Otp sent to',
               style: Theme.of(context).textTheme.caption,
             ),
-            const Text(
-              '+91 891XXXXX092',
-              style: TextStyle(
+            Text(
+              widget.phoneNumber.replaceRange(3, 8, "*****"),
+              style: const TextStyle(
                 fontSize: 24,
               ),
             ),
@@ -133,7 +130,6 @@ class _OTPScreenState extends State<OTPScreen> {
                       otp,
                     );
                     final responseData = json.decode(response.body);
-                    print(responseData['success']);
                     if (responseData['success'] == true) {
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.setBool('isLoggedIn', true);

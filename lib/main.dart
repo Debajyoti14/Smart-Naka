@@ -48,7 +48,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _handleMessage(RemoteMessage message) {
-    print(message.data['body']);
     Navigator.of(navigatorKey.currentContext!).push(CupertinoPageRoute(
       builder: (_) => LostCarNotification(
         carNo: message.data['body'],
@@ -86,10 +85,8 @@ class _MyAppState extends State<MyApp> {
       sound: true,
     );
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('User granted permission');
     } else if (settings.authorizationStatus ==
         AuthorizationStatus.provisional) {
-      print('User granted provisional permission');
     } else {
       print('User declined or has not accepted permission');
     }

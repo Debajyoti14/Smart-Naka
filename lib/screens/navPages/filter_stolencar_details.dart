@@ -29,8 +29,6 @@ class FilterStolenCarDetails extends StatelessWidget {
               itemCount: filteredCars.length,
               itemBuilder: ((context, index) {
                 final carData = filteredCars[index];
-                print(carData);
-                // return Text('1');
 
                 return MatchedCars(
                   imageURL: carData['imgs'][0] ?? '',

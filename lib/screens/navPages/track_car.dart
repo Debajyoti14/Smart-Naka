@@ -37,7 +37,6 @@ class _TrackCarState extends State<TrackCar> {
       },
       body: body,
     );
-    print(response.statusCode);
     final trackDetails = json.decode(response.body);
     if (response.body.isEmpty) {
       if (!mounted) return;

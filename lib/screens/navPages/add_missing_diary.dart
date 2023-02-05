@@ -70,7 +70,6 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
   _uploadMultipleImages() async {
     for (var image in imageFileList) {
       final url = await _uploadImages(image);
-      print(url);
       uploadedImageURL.add(url);
     }
   }
@@ -105,7 +104,6 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
     };
 
     var body = json.encode(data);
-    print(body);
 
     var response = await http.post(
       url,
@@ -118,7 +116,6 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
     isLoading = false;
     setState(() {});
     uploadedImageURL = [];
-    print(response.body);
     return response.body;
   }
 

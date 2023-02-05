@@ -21,7 +21,6 @@ class TrackCarDisplay extends StatelessWidget {
   }
 
   _subscribeDevice(String deviceToken, String carNo) async {
-    print(deviceToken);
     final url = Uri.parse('$apiURL/subscribe-device');
     final Map<String, dynamic> map = {
       "topicName": carNo,
@@ -38,8 +37,6 @@ class TrackCarDisplay extends StatelessWidget {
       },
       body: body,
     );
-    print(response.statusCode);
-    print(response.body);
     return response;
   }
 

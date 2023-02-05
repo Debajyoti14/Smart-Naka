@@ -20,8 +20,6 @@ class AuthController extends GetxController {
           "x-api-key": apiKey!,
         },
         body: body);
-    print("${response.statusCode}");
-    print(response.body);
     return response;
   }
 
@@ -38,8 +36,6 @@ class AuthController extends GetxController {
           "x-api-key": apiKey!,
         },
         body: body);
-    print("${response.statusCode}");
-    print(response.body);
     return response;
   }
 

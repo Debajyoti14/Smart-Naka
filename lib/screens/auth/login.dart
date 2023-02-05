@@ -64,7 +64,6 @@ class _LoginPageState extends State<LoginPage> {
 
                         await loginController.getOTP(policeDetails.number).then(
                           (value) {
-                            print(value.body);
                             Navigator.of(context).push(
                               CupertinoPageRoute(
                                 builder: (context) => OTPScreen(
@@ -81,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         );
                       } catch (e) {
-                        print(e.toString());
+                        throw Exception(e.toString());
                       }
                     })
               ],

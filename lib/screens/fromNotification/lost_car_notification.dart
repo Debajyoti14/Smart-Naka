@@ -70,7 +70,6 @@ class _LostCarNotificationState extends State<LostCarNotification> {
       body: body,
     );
     final carDetails = json.decode(response.body);
-    print(carDetails);
     carDetailsFound = carDetails;
 
     return carDetails;
@@ -126,7 +125,6 @@ class _LostCarNotificationState extends State<LostCarNotification> {
       body: body,
     );
     final carDetails = json.decode(response.body);
-    print(response.statusCode);
     return carDetails;
   }
 

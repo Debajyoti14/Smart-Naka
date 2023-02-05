@@ -79,8 +79,6 @@ class _HomePageState extends State<HomePage> {
         }
         if (snapshot.hasData) {
           final carDetails = snapshot.data! as Map<String, dynamic>;
-          print(carDetails);
-
           return isOnDuty
               ? SingleChildScrollView(
                   padding:
@@ -100,7 +98,6 @@ class _HomePageState extends State<HomePage> {
                         itemCount: stolenCarsData.length,
                         itemBuilder: (context, index) {
                           final carData = carDetails['trackDetails'][index];
-                          print(carData);
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: GestureDetector(

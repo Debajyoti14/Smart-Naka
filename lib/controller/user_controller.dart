@@ -18,7 +18,6 @@ class UserController extends GetxController {
     var url = Uri.parse('$apiURL/police/get');
 
     Map data = {'id': policeIDController.text};
-    print(data);
 
     var body = json.encode(data);
     var response = await http.post(url,
@@ -27,7 +26,6 @@ class UserController extends GetxController {
           "x-api-key": apiKey!,
         },
         body: body);
-    print(response.body);
     userDetails = Police.fromJson(json.decode(response.body));
     return userDetails;
   }
