@@ -51,7 +51,6 @@ class _HomePageState extends State<HomePage> {
       },
       body: body,
     );
-    print(response.statusCode);
     final details = json.decode(response.body);
     return details;
   }
@@ -83,43 +82,48 @@ class _HomePageState extends State<HomePage> {
               ? SingleChildScrollView(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 30),
-                      const Text(
-                        'Stolen cars Updates',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(height: 20),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: stolenCarsData.length,
-                        itemBuilder: (context, index) {
-                          final carData = carDetails['trackDetails'][index];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  CupertinoPageRoute(
-                                    builder: (_) => LostCarNotification(
-                                      carNo: carData['number'],
+                  child: RefreshIndicator(
+                    onRefresh: () => _getPoliceStationNotifications(),
+                    color: accentGreen,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Stolen cars Updates',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        const SizedBox(height: 20),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: stolenCarsData.length,
+                          itemBuilder: (context, index) {
+                            final carData = carDetails['trackDetails'][index];
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    CupertinoPageRoute(
+                                      builder: (_) => LostCarNotification(
+                                        carNo: carData['number'],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                              child: StolenCarHomeWidget(
-                                modelNo: carData['number'],
-                                lastLocation: carData['location'],
-                                lastSeen: carData['timeStamp'],
+                                  );
+                                },
+                                child: StolenCarHomeWidget(
+                                  modelNo: carData['number'],
+                                  lastLocation: carData['location'],
+                                  lastSeen: carData['timeStamp'],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      )
-                    ],
+                            );
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 )
               : Center(
@@ -179,14 +183,30 @@ class StolenCarHomeWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            modelNo,
-            style: const TextStyle(fontSize: 20),
+          Text.rich(
+            TextSpan(
+              children: [
+                const WidgetSpan(
+                    child: Icon(
+                  Icons.car_repair,
+                  color: accentGreen,
+                )),
+                TextSpan(
+                  text: '  $modelNo',
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 5,
           ),
           Text(
-            'Spotted at $lastLocation ${(DateTime.fromMillisecondsSinceEpoch(lastSeen)).toString()}  📌',
+            'Spotted at $lastLocation  📌',
             style: const TextStyle(fontSize: 14),
-          )
+          ),
+          Text(
+              'Last seen at ${(DateTime.fromMillisecondsSinceEpoch(lastSeen)).toString()}')
         ],
       ),
     );
