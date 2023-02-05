@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/screens/fromNotification/lost_car_notification.dart';
+import 'package:smart_naka_ethos/utils/date_formatter.dart';
 
 import '../../controller/user_controller.dart';
 import '../../dummyDB/stolen_cars.dart';
@@ -175,6 +177,8 @@ class StolenCarHomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formatteddate = format12hourTime(lastSeen);
+
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -202,11 +206,10 @@ class StolenCarHomeWidget extends StatelessWidget {
             height: 5,
           ),
           Text(
-            'Spotted at $lastLocation  📌',
+            'Spotted at $lastLocation ,',
             style: const TextStyle(fontSize: 14),
           ),
-          Text(
-              'Last seen at ${(DateTime.fromMillisecondsSinceEpoch(lastSeen)).toString()}')
+          Text(formatteddate)
         ],
       ),
     );

@@ -10,6 +10,7 @@ import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
 import '../../utils/api_url.dart';
 import '../../utils/constants.dart';
+import '../../utils/date_formatter.dart';
 import '../track_car_display.dart';
 
 class LostCarNotification extends StatefulWidget {
@@ -77,16 +78,6 @@ class _LostCarNotificationState extends State<LostCarNotification> {
 
   _setCarFound() async {
     var url = Uri.parse('$apiURL/lost-cars/found');
-
-    // final date = DateFormat("yy-MM-dd");
-    // final time = DateFormat("Hm");
-    // String onlyDate =
-    //     date.format(carDetailsFound['trackDetails'][0]['timeStamp']);
-    // String onlyTime =
-    //     time.format(carDetailsFound['trackDetails'][0]['timeStamp']);
-    // print('--------------->');
-    // print(onlyDate);
-    // print(onlyTime);
 
     Map data = {
       "number": carDetailsFound['number'],
@@ -192,6 +183,8 @@ class _LostCarNotificationState extends State<LostCarNotification> {
         }
         if (snapshot.hasData) {
           final carDetails = snapshot.data! as Map<String, dynamic>;
+          String formatteddate =
+              format12hourTime(carDetails['trackDetails'][0]?['timeStamp']);
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
             child: SingleChildScrollView(
@@ -252,9 +245,7 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                     lastLocation: carDetails['foundCarDetails']
                         ?['foundAtpoliceStation'],
                     modelNo: carDetails['model'],
-                    lastSeen: DateTime.fromMillisecondsSinceEpoch(
-                            carDetails['trackDetails'][0]?['timeStamp'])
-                        .toString(),
+                    lastSeen: formatteddate,
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
@@ -301,7 +292,7 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                           'Filed by officer:  ${carDetails['lostDiaryDetails']['filedByOfficer']['name']}',
                         ),
                         Text(
-                          'Filed by:  ${carDetails['filedBy']}',
+                          'Filed by:  ${carDetails['lostDiaryDetails']['filedByOfficer']?['filedBy'] ?? '-'} ',
                         ),
                       ],
                     ),

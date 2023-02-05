@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_naka_ethos/utils/constants.dart';
 
 final darkThemeData = ThemeData(
+  useMaterial3: true,
   brightness: Brightness.dark,
   primaryColor: backgroundDark,
   scaffoldBackgroundColor: backgroundDark,
