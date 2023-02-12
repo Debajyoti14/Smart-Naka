@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final FormFieldValidator? validator;
   final int? initialValue;
   final String hintText;
+  final InputDecoration? decoration;
   const CustomTextField({
     super.key,
     this.obscureText = false,
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
     this.initialValue,
     required this.hintText,
     this.controller,
+    this.decoration,
   });
 
   @override

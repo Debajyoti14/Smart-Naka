@@ -63,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Text(
                 policeStation,
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 40),
               Container(
@@ -90,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Text(
                             'You can view you daily personal phone usages analytics',
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.bodySmall,
                           )
                         ],
                       ),
@@ -165,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Text(
                             'You can view you daily personal phone usages analytics',
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.bodySmall,
                           )
                         ],
                       ),
@@ -198,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Text(
                             'You can view you daily personal phone usages analytics',
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.bodySmall,
                           )
                         ],
                       ),

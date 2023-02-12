@@ -112,7 +112,7 @@ class _BottomNavState extends State<BottomNav> {
                         Text(policeName),
                         Text(
                           policeStation,
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         )
                       ],
                     ),

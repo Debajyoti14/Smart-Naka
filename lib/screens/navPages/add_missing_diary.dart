@@ -160,6 +160,12 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
               CustomTextField(
                 hintText: 'Enter Name',
                 controller: nameEditingController,
+                validator: (value) {
+                  if (value!.trim().isEmpty) {
+                    return 'Name Required';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 10),
               const Text(
@@ -170,16 +176,34 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
               CustomTextField(
                 hintText: 'Enter Car Number',
                 controller: carNoEditingController,
+                validator: (value) {
+                  if (value!.trim().isEmpty) {
+                    return 'Car Number Required';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 10),
               CustomTextField(
                 hintText: 'Enter Car Model',
                 controller: carModelEditingController,
+                validator: (value) {
+                  if (value!.trim().isEmpty) {
+                    return 'Car Model Required';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 10),
               CustomTextField(
                 hintText: 'Enter Color',
                 controller: carColorEditingController,
+                validator: (value) {
+                  if (value!.trim().isEmpty) {
+                    return 'Car Colour Required';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -191,7 +215,7 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
                     ),
                     Text(
                       'Minimum 1 Image required',
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
                 ),
@@ -233,28 +257,54 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
               CustomTextField(
                 hintText: 'Enter Owner Name',
                 controller: ownerNameEditingController,
+                validator: (value) {
+                  if (value!.trim().isEmpty) {
+                    return 'Owner Name Required';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 10),
               CustomTextField(
                 hintText: 'Enter Phone Number',
                 controller: phoneNoEditingController,
+                validator: (value) {
+                  if (value!.trim().isEmpty) {
+                    return 'Phone Number Required';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 10),
               CustomTextField(
                 hintText: 'Email',
                 controller: emailEditingController,
+                validator: (value) {
+                  if (value!.trim().isEmpty) {
+                    return 'Email Required';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 10),
               CustomTextField(
                 hintText: 'Address',
                 controller: addressEditingController,
+                validator: (value) {
+                  if (value!.trim().isEmpty) {
+                    return 'Address Required';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
               CustomGreenButton(
                 buttonText: 'Add Missing Diary',
                 isLoading: isLoading,
                 onPressed: () async {
-                  await _checkMissingCar();
+                  if (_formKey.currentState!.validate()) {
+                    await _checkMissingCar();
+                  }
                 },
               )
             ],

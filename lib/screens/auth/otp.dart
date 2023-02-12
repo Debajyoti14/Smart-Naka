@@ -91,7 +91,7 @@ class _OTPScreenState extends State<OTPScreen> {
             const SizedBox(height: 40),
             Text(
               'Otp sent to',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             Text(
               widget.phoneNumber.replaceRange(3, 8, "*****"),
@@ -167,7 +167,7 @@ class _OTPScreenState extends State<OTPScreen> {
             const SizedBox(height: 10),
             Text(
               'Resend OTP (29s)',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             )
           ],
         ),

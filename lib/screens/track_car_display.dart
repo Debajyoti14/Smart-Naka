@@ -7,6 +7,7 @@ import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 import 'package:http/http.dart' as http;
 
 import '../utils/api_url.dart';
+import '../utils/date_formatter.dart';
 
 class TrackCarDisplay extends StatelessWidget {
   final Map<String, dynamic> trackDetails;
@@ -140,6 +141,7 @@ class StolenCarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formatteddate = format12hourTime(lastSeen ?? 0);
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -157,7 +159,7 @@ class StolenCarWidget extends StatelessWidget {
               const Text(' - '),
               Text(
                 carColor!,
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               )
             ],
           ),
@@ -166,7 +168,7 @@ class StolenCarWidget extends StatelessWidget {
             style: const TextStyle(fontSize: 16),
           ),
           Text(
-            'Spotted at $lastLocation ${(DateTime.fromMillisecondsSinceEpoch(lastSeen!)).toString()}  📌',
+            'Spotted at $lastLocation $formatteddate  📌',
             style: const TextStyle(fontSize: 14),
           )
         ],

@@ -22,8 +22,9 @@ class _FilterStolenCarHistoryState extends State<FilterStolenCarHistory> {
   bool _isLoading = false;
   List<Map<String, dynamic>> filteredCars = [];
   bool isOnDuty = true;
-  String filterPoliceStation = 'Patna Police Station';
+  String filterPoliceStation = policeStations.first;
   final apiKey = dotenv.env['API_KEY'];
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController noOfDaysEditingController = TextEditingController();
 
@@ -68,51 +69,65 @@ class _FilterStolenCarHistoryState extends State<FilterStolenCarHistory> {
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 30),
-            const Text(
-              'Stolen Car History',
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 20),
-            Center(child: Image.asset('assets/filtersearch.png')),
-            const SizedBox(height: 30),
-            DropdownButton<String>(
-              value: filterPoliceStation,
-              hint: const Text('Select your Police Station'),
-              isExpanded: true,
-              items: policeStations.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (value) {
-                filterPoliceStation = value ?? '';
-                setState(() {});
-              },
-            ),
-            const SizedBox(height: 20),
-            CustomTextField(
-              hintText: 'No of Days.',
-              controller: noOfDaysEditingController,
-            ),
-            const SizedBox(height: 30),
-            CustomGreenButton(
-              isLoading: _isLoading,
-              buttonText: 'Search',
-              onPressed: () async {
-                _isLoading = true;
-                setState(() {});
-                await _getLostCarDetails();
-                _isLoading = false;
-                setState(() {});
-              },
-            )
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 30),
+              const Text(
+                'Stolen Car History',
+                style: TextStyle(fontSize: 20),
+              ),
+              const SizedBox(height: 20),
+              Center(child: Image.asset('assets/filtersearch.png')),
+              const SizedBox(height: 30),
+              DropdownButtonFormField<String>(
+                value: filterPoliceStation,
+                hint: const Text('Select your Police Station'),
+                isExpanded: true,
+                items: policeStations.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                validator: (String? value) => value == policeStations.first
+                    ? 'Police Station Required'
+                    : null,
+                onChanged: (String? value) {
+                  filterPoliceStation = value!;
+                  setState(() {});
+                },
+              ),
+              const SizedBox(height: 20),
+              CustomTextField(
+                hintText: 'No of Days.',
+                controller: noOfDaysEditingController,
+                validator: (value) {
+                  if (value!.trim().isEmpty) {
+                    return 'No of Days Required';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 30),
+              CustomGreenButton(
+                isLoading: _isLoading,
+                buttonText: 'Search',
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    _isLoading = true;
+                    setState(() {});
+                    await _getLostCarDetails();
+                    _isLoading = false;
+                    setState(() {});
+                  }
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

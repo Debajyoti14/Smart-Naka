@@ -20,6 +20,7 @@ class TrackCar extends StatefulWidget {
 class _TrackCarState extends State<TrackCar> {
   bool _isLoading = false;
   final apiKey = dotenv.env['API_KEY'];
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   _verifyCarWithNumber(String carNumber) async {
     final url = Uri.parse('$apiURL/lost-cars/get-a-car');
@@ -65,37 +66,48 @@ class _TrackCarState extends State<TrackCar> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
       child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            const Text(
-              'Track a Car',
-              style: TextStyle(fontSize: 20),
-            ),
-            Center(child: Image.asset("assets/trackCar.png")),
-            const SizedBox(
-              height: 60,
-            ),
-            CustomTextField(
-              hintText: "Enter car Number",
-              controller: carNumberEditingController,
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            CustomGreenButton(
-              isLoading: _isLoading,
-              buttonText: "Search",
-              onPressed: () async {
-                _isLoading = true;
-                setState(() {});
-                await _verifyCarWithNumber(carNumberEditingController.text);
-                _isLoading = false;
-                setState(() {});
-              },
-            )
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                'Track a Car',
+                style: TextStyle(fontSize: 20),
+              ),
+              Center(child: Image.asset("assets/trackCar.png")),
+              const SizedBox(
+                height: 60,
+              ),
+              CustomTextField(
+                hintText: "Enter car Number",
+                controller: carNumberEditingController,
+                validator: (value) {
+                  if (value!.trim().isEmpty) {
+                    return 'Car Number Required';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              CustomGreenButton(
+                isLoading: _isLoading,
+                buttonText: "Search",
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    _isLoading = true;
+                    setState(() {});
+                    await _verifyCarWithNumber(carNumberEditingController.text);
+                    _isLoading = false;
+                    setState(() {});
+                  }
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -206,7 +206,7 @@ class _LostCarNotificationState extends State<LostCarNotification> {
                         Text(policeName),
                         Text(
                           policeStation,
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         )
                       ],
                     ),
@@ -394,7 +394,7 @@ class StolenCarWidget extends StatelessWidget {
               const Text(' - '),
               Text(
                 carColor!,
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               )
             ],
           ),
