@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +18,6 @@ class TrackCar extends StatefulWidget {
 
 class _TrackCarState extends State<TrackCar> {
   bool _isLoading = false;
-  final apiKey = dotenv.env['API_KEY'];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   _verifyCarWithNumber(String carNumber) async {

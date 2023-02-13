@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:smart_naka_ethos/utils/api_url.dart';
 
 class AuthController extends GetxController {
-  final apiKey = dotenv.env['API_KEY'];
-
   Future<http.Response> getOTP(String phoneNo) async {
     var url = Uri.parse('$apiURL/otp/send');
     Map data = {'number': phoneNo, 'TTL': '60'};

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/screens/fromNotification/lost_car_notification.dart';
@@ -25,7 +24,6 @@ class _HomePageState extends State<HomePage> {
   bool isOnDuty = true;
   var policeController = Get.put(UserController());
   late Map<String, dynamic> policeStationNotification;
-  final apiKey = dotenv.env['API_KEY'];
   late final Future myFuture;
 
   @override

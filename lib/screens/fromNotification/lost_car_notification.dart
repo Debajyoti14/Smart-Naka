@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 
@@ -22,7 +20,6 @@ class LostCarNotification extends StatefulWidget {
 }
 
 class _LostCarNotificationState extends State<LostCarNotification> {
-  final apiKey = dotenv.env['API_KEY'];
   bool _isLoading = false;
   String policeID = '';
   String policeName = '';

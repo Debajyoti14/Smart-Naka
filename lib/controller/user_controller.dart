@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:smart_naka_ethos/models/police.dart';
 
@@ -10,7 +9,6 @@ import 'package:http/http.dart' as http;
 
 class UserController extends GetxController {
   late Police userDetails;
-  final apiKey = dotenv.env['API_KEY'];
 
   TextEditingController policeIDController = TextEditingController();
 

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
@@ -40,7 +39,6 @@ class _OTPScreenState extends State<OTPScreen> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  final apiKey = dotenv.env['API_KEY'];
 
   _subscribeDevice(String deviceToken, String policeStation) async {
     final url = Uri.parse('$apiURL/subscribe-device');

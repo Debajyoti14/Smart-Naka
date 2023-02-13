@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_naka_ethos/widgets/green_buttons.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +12,6 @@ class TrackCarDisplay extends StatelessWidget {
   final Map<String, dynamic> trackDetails;
   TrackCarDisplay({super.key, required this.trackDetails});
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  final apiKey = dotenv.env['API_KEY'];
 
   _subscribeForTrackingDetails() {
     _firebaseMessaging

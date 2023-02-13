@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io' as io;
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_naka_ethos/widgets/custom_text_field.dart';
@@ -35,7 +34,6 @@ class _AddMissingDiaryState extends State<AddMissingDiary> {
 
   bool isOnDuty = true;
   List uploadedImageURL = [];
-  final apiKey = dotenv.env['API_KEY'];
   final _formKey = GlobalKey<FormState>();
   final ImagePicker imagePicker = ImagePicker();
 
