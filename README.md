@@ -58,53 +58,6 @@ In this page, you can track a car easily with a car vehicle no, and see where th
 <img src="https://assets.devfolio.co/hackathons/c319fcf0bd204d3d9acc419c27e5dcb0/projects/df09a4d61a5e402e909a21a83004cbb2/7e161121-7895-4011-b892-e025310d6f1b.jpeg" width="250"/>
 
 
-+ ### **Login Page** 
-Use the credential mailed to you for login. Once you logged in you can now access the user dashboard.
-
-![image](https://user-images.githubusercontent.com/93156825/218273392-097b6c0e-76c6-47d2-8c93-08ea6b1fc601.png)
-
----
-
-+ ### **User Dashboard** 
-A dynamic dashboard is provided to all the users where they can add a new post using a form and can see their last post posted here.
-
-![image](https://user-images.githubusercontent.com/93156825/218273764-5314edeb-00cf-4762-82ac-1f7225b3a72d.png)
-
----
-
-+ ### **Create a Post** 
-You can create a new post by filling out the form provided in the dashboard. Fill in the details accordingly and click _POST_
-
-+ ### Now the post will be visible on the _/donate_ page. Click on the _Donate_ button to route to the payment page.
-
-![image](https://user-images.githubusercontent.com/93156825/218273852-908d63be-f9f0-4941-b69f-70bc9f56788b.png)
-
-
----
-
-+ ### **Payment Page** 
-The payment page is provided with all the details of the post like post Id, title, and description which you can use to cross-check.
-
-![image](https://user-images.githubusercontent.com/93156825/218273918-6814c68a-4bc8-461a-ab70-99893570b539.png)
-
-The page contains a QR code and a form to pay using **Razorpay**. One can make the payment through their desired mode.
-
-+ ### Pay using **Razorpay**
-
-Razorpay is integrated as a payment gateway, fill the required field and make click *Pay Now*
-
-![image](https://user-images.githubusercontent.com/93156825/218274031-10760753-d432-49e8-8c92-12404262b293.png)
-
-+ ### Choose your desired mode to pay.
-Once you clicked the *Pay Now* button, the Razorpay dashboard will open. Now you can make a payment accordingly to the options available.
-
-![image](https://user-images.githubusercontent.com/93156825/218274078-984fff67-ee49-42e4-8cd9-f331e92f3588.png)
-
-
-+ ### Payment Successful/Uncessfull message
-![image](https://user-images.githubusercontent.com/93156825/218274150-5af2069e-db52-44e2-9b3d-d87c804f7a38.png)
-
-
 ---
  ## Wants to take a look on the code base?🧐
 
