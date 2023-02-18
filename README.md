@@ -30,12 +30,12 @@ This is the problem we are solving and we are really confident about it.
 ## Tech Stack 💻
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white) ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 
-## Want to Contribute? 🤝
+## Check out the application? 🤝
 
-Every change, issue, and required contribution is welcome.
+Checkout this Drive Link and install the apk. Also to login checkout the Test Credentials.
 
 
-Click [here](https://github.com/nikhil25803/fundRaiser/blob/main/contribution.md) for the project setup, installation guide and contribution guidelines.
+Click [here](https://drive.google.com/drive/folders/1HAly33xyqzMNGvaeVv7IEKPfFf7wtOPG?usp=sharing) for the Drive Link.
 
 ## Sneak Peek 👀
 
