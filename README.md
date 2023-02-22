@@ -1,5 +1,5 @@
 ## What is Smart Naka? 🤔
-It is an open-source online platform that helps you raise funds for your upcoming projects, community, or startup idea. On this platform, you will various needy ones you might help and can even post the same asking others to step ahead and help.
+It is an application to facilitate police officers with Nakas in a more convenient way.
 
 ## What Problem it solves? 😊
 The problem we are solving is Assam Police’s - Smart Naka
