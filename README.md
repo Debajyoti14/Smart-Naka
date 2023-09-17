@@ -16,6 +16,8 @@ There is also a filter Stolen Car details Feature. By selecting police station a
 
 This is the problem we are solving with this application.
 
+Click [here](https://www.canva.com/design/DAFXHPyFhNo/LUYwiHB91h-1gmsanffROw/edit?utm_content=DAFXHPyFhNo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) to see the Pitch Deck.
+
 ## Features 💫
 + Adaptive App UI made with Flutter
 + Integration of Data Models
